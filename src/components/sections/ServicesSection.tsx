@@ -1,9 +1,13 @@
+"use client";
+
 import { ServiceCard } from "@/components/sections/ServiceCard";
 import { services } from "@/data/services";
-
-const HEADING = "Our Services";
+import { useT } from "@/components/providers/LocaleProvider";
 
 export function ServicesSection() {
+  const t = useT();
+  const heading = `${t.services.title} ${t.services.titleAccent}`;
+
   return (
     <section
       id="services"
@@ -14,12 +18,12 @@ export function ServicesSection() {
           <div className="box-border min-h-[auto] min-w-[auto]">
             <div className="box-border">
               <h2
-                aria-label={HEADING}
+                aria-label={heading}
                 className="text-transparent text-[38px] font-bold bg-clip-text box-border leading-[38px] max-w-xl md:text-6xl md:leading-[60px]"
               >
                 <span className="text-[38px] box-border leading-[38px] md:text-6xl md:leading-[60px]">
-                  {HEADING.split("").map((ch, i) => {
-                    const ratio = i / Math.max(1, HEADING.length - 1);
+                  {heading.split("").map((ch, i) => {
+                    const ratio = i / Math.max(1, heading.length - 1);
                     return (
                       <span
                         key={i}
@@ -31,7 +35,7 @@ export function ServicesSection() {
                           backgroundPosition: `${ratio * 100}% top`,
                         }}
                       >
-                        {ch === " " ? " " : ch}
+                        {ch === " " ? " " : ch}
                       </span>
                     );
                   })}
@@ -44,7 +48,7 @@ export function ServicesSection() {
             href="#services"
             className="hidden md:inline-flex items-center gap-2 px-6 py-3 rounded-full border border-blue-500/40 text-slate-900 hover:bg-blue-500 hover:text-white transition-colors duration-300"
           >
-            <span>Learn more</span>
+            <span>{t.hero.howWeWork}</span>
             <svg
               width="16"
               height="16"
@@ -63,22 +67,25 @@ export function ServicesSection() {
         </div>
 
         <div className="box-border flex flex-col grid-cols-[repeat(1,minmax(0px,1fr))] border-slate-200 overflow-hidden -mt-1.5 rounded-xl border-b border-l border-r border-t border-solid md:grid md:flex-row md:grid-cols-[repeat(12,minmax(0px,1fr))] md:mt-0 md:border-r-0">
-          {services.map((service) => (
-            <ServiceCard
-              key={service.title}
-              title={service.title}
-              description={service.description}
-              videoSrc={service.videoSrc}
-              span={service.span}
-            />
-          ))}
+          {services.map((service) => {
+            const copy = t.services.items[service.key];
+            return (
+              <ServiceCard
+                key={service.key}
+                title={copy.title}
+                description={copy.desc}
+                videoSrc={service.videoSrc}
+                span={service.span}
+              />
+            );
+          })}
         </div>
 
         <a
           href="#services"
           className="mt-8 flex md:hidden items-center justify-center gap-2 px-6 py-3 rounded-full border border-blue-500/40 text-slate-900 w-full"
         >
-          <span>Learn more</span>
+          <span>{t.hero.howWeWork}</span>
           <svg
             width="16"
             height="16"

@@ -2,6 +2,7 @@
 
 import { SiSamsung, SiCocacola } from "react-icons/si";
 import { LogoLoop, type LogoLoopItem } from "@/components/effects/LogoLoop";
+import { useT } from "@/components/providers/LocaleProvider";
 
 const BRAND_LOGOS: LogoLoopItem[] = [
   {
@@ -23,6 +24,7 @@ const BRAND_LOGOS: LogoLoopItem[] = [
 ];
 
 export function BuildingFor() {
+  const t = useT();
   return (
     <section
       id="clients"
@@ -31,8 +33,8 @@ export function BuildingFor() {
       <div className="mx-auto max-w-[1600px] w-full">
         <div className="text-center mb-8 md:mb-10">
           <h2 className="text-slate-900 text-4xl md:text-6xl font-semibold leading-[1.05] tracking-tight">
-            Who we{" "}
-            <span className="italic text-blue-500">build for.</span>
+            {t.buildingFor.title}{" "}
+            <span className="italic text-blue-500">{t.buildingFor.titleAccent}</span>
           </h2>
         </div>
 
@@ -50,7 +52,7 @@ export function BuildingFor() {
             scaleOnHover
             fadeOut
             fadeOutColor="#ffffff"
-            ariaLabel="Companies we build for"
+            ariaLabel={t.buildingFor.aria}
           />
         </div>
       </div>

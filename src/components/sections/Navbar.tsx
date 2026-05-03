@@ -1,18 +1,23 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
-
-const navItems = [
-  { label: "Work", href: "#work" },
-  { label: "Approach", href: "#approach" },
-  { label: "Services", href: "#services" },
-  { label: "News", href: "#news" },
-  { label: "About", href: "#about" },
-] as const;
+import { useLocale, useT } from "@/components/providers/LocaleProvider";
+import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
 
 export function Navbar() {
   const [mounted, setMounted] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const { isLoading } = useLocale();
+  const t = useT();
+  const navItems = [
+    { label: t.nav.work, href: "#work" },
+    { label: t.nav.approach, href: "#approach" },
+    { label: t.nav.services, href: "#services" },
+    { label: t.nav.news, href: "#news" },
+    { label: t.nav.about, href: "#about" },
+  ];
 
   useEffect(() => {
     const t = setTimeout(() => setMounted(true), 50);
@@ -25,91 +30,239 @@ export function Navbar() {
     };
   }, []);
 
+  // Lock body scroll when menu is open and close on Escape.
+  useEffect(() => {
+    if (!menuOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [menuOpen]);
+
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-[50] transition-all duration-500 ${
-        scrolled
-          ? "bg-white/70 backdrop-blur-md border-b border-slate-200/60"
-          : "bg-transparent"
-      }`}
+    <>
+      <header
+        className={`fixed top-0 left-0 right-0 z-[50] transition-all duration-500 ${
+          scrolled
+            ? "bg-white/70 backdrop-blur-md border-b border-slate-200/60"
+            : "bg-transparent"
+        }`}
+        style={{
+          opacity: mounted ? 1 : 0,
+          transform: mounted ? "translateY(0)" : "translateY(-24px)",
+          transition:
+            "opacity 0.7s cubic-bezier(0.22,1,0.36,1) 100ms, transform 0.7s cubic-bezier(0.22,1,0.36,1) 100ms, background-color 0.4s, backdrop-filter 0.4s, border-color 0.4s",
+        }}
+      >
+        <div className="mx-auto flex items-center justify-between max-w-[1600px] w-full px-6 md:px-12 py-3 md:py-3">
+          <a
+            href="#"
+            aria-label="Lumintik — home"
+            className="inline-flex items-center select-none"
+          >
+            <span
+              id="navbar-logo"
+              className="relative block w-[140px] h-[40px] md:w-[180px] md:h-[50px]"
+              style={{
+                opacity: isLoading ? 0 : 1,
+                transition: "opacity 250ms cubic-bezier(0.16,1,0.3,1) 550ms",
+              }}
+            >
+              <Image
+                src="/lumintik-logo.png"
+                alt="Lumintik"
+                fill
+                priority
+                unoptimized
+                sizes="(max-width: 768px) 140px, 180px"
+                className="object-contain object-left"
+                draggable={false}
+              />
+            </span>
+          </a>
+
+          <nav className="hidden md:flex items-center gap-2">
+            {navItems.map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                className="relative text-slate-700 hover:text-slate-900 text-sm font-medium px-4 py-2 rounded-full transition-colors duration-200 hover:bg-slate-100"
+              >
+                {item.label}
+              </a>
+            ))}
+
+            <a
+              href="#join"
+              className="ml-2 text-slate-700 hover:text-slate-900 text-sm font-medium px-3 py-2 transition-colors duration-200"
+            >
+              {t.nav.join}
+            </a>
+            <a
+              href="#contact"
+              className="ml-1 inline-flex items-center gap-2 px-5 py-2 rounded-full bg-slate-900 text-white text-sm font-medium hover:bg-blue-500 transition-colors duration-300"
+            >
+              {t.nav.contact}
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+            </a>
+          </nav>
+
+          <button
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen((v) => !v)}
+            className="md:hidden relative inline-flex items-center justify-center w-12 h-12 rounded-full bg-slate-900 text-white z-[110]"
+          >
+            <span
+              className="absolute block w-5 h-px bg-current"
+              style={{
+                transform: menuOpen ? "rotate(45deg)" : "translateY(-5px)",
+                transition: "transform 350ms cubic-bezier(0.22,1,0.36,1)",
+              }}
+            />
+            <span
+              className="absolute block w-5 h-px bg-current"
+              style={{
+                opacity: menuOpen ? 0 : 1,
+                transition: "opacity 200ms ease",
+              }}
+            />
+            <span
+              className="absolute block w-5 h-px bg-current"
+              style={{
+                transform: menuOpen ? "rotate(-45deg)" : "translateY(5px)",
+                transition: "transform 350ms cubic-bezier(0.22,1,0.36,1)",
+              }}
+            />
+          </button>
+        </div>
+      </header>
+
+      <MobileMenu
+        open={menuOpen}
+        onClose={() => setMenuOpen(false)}
+        items={navItems}
+        startLabel={t.mobileMenu.startProject}
+        joinLabel={t.mobileMenu.joinUs}
+      />
+    </>
+  );
+}
+
+type MobileMenuProps = {
+  open: boolean;
+  onClose: () => void;
+  items: { label: string; href: string }[];
+  startLabel: string;
+  joinLabel: string;
+};
+
+function MobileMenu({ open, onClose, items, startLabel, joinLabel }: MobileMenuProps) {
+  return (
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-hidden={!open}
+      className="md:hidden fixed inset-0 z-[100]"
       style={{
-        opacity: mounted ? 1 : 0,
-        transform: mounted ? "translateY(0)" : "translateY(-24px)",
-        transition:
-          "opacity 0.7s cubic-bezier(0.22,1,0.36,1) 100ms, transform 0.7s cubic-bezier(0.22,1,0.36,1) 100ms, background-color 0.4s, backdrop-filter 0.4s, border-color 0.4s",
+        pointerEvents: open ? "auto" : "none",
       }}
     >
-      <div className="mx-auto flex items-center justify-between max-w-[1600px] w-full px-6 md:px-12 py-5">
-        <a
-          href="#"
-          aria-label="Lumintik — home"
-          className="text-slate-900 text-xl md:text-2xl font-bold tracking-[0.18em] leading-none select-none"
-        >
-          LUMINTIK
-        </a>
+      <div
+        onClick={onClose}
+        className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"
+        style={{
+          opacity: open ? 1 : 0,
+          transition: "opacity 400ms cubic-bezier(0.22,1,0.36,1)",
+        }}
+      />
 
-        <nav className="hidden md:flex items-center gap-2">
-          {navItems.map((item) => (
+      <aside
+        className="absolute top-0 right-0 h-full w-full max-w-[420px] bg-white flex flex-col"
+        style={{
+          transform: open ? "translateX(0)" : "translateX(100%)",
+          transition: "transform 500ms cubic-bezier(0.22,1,0.36,1)",
+          boxShadow: open ? "-20px 0 60px rgba(15,23,42,0.12)" : "none",
+        }}
+      >
+        <div className="flex items-center justify-between px-6 pt-5 pb-2">
+          <span className="relative block w-[173px] h-[48px]">
+            <Image
+              src="/lumintik-logo.png"
+              alt="Lumintik"
+              fill
+              unoptimized
+              sizes="173px"
+              className="object-contain object-left"
+              draggable={false}
+            />
+          </span>
+          <span className="w-12 h-12" aria-hidden />
+        </div>
+
+        <nav className="flex-1 flex flex-col justify-center px-8 gap-1">
+          {items.map((item, i) => (
             <a
               key={item.label}
               href={item.href}
-              className="relative text-slate-700 hover:text-slate-900 text-sm font-medium px-4 py-2 rounded-full transition-colors duration-200 hover:bg-slate-100"
+              onClick={onClose}
+              className="group flex items-center justify-between py-3 border-b border-slate-100"
+              style={{
+                opacity: open ? 1 : 0,
+                transform: open ? "translateX(0)" : "translateX(20px)",
+                transition: `opacity 500ms cubic-bezier(0.22,1,0.36,1) ${200 + i * 60}ms, transform 500ms cubic-bezier(0.22,1,0.36,1) ${200 + i * 60}ms`,
+              }}
             >
-              {item.label}
+              <span className="text-slate-900 text-3xl font-semibold tracking-tight">
+                {item.label}
+              </span>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-slate-400 group-hover:text-blue-500 transition-colors" aria-hidden>
+                <line x1="7" y1="17" x2="17" y2="7" />
+                <polyline points="7 7 17 7 17 17" />
+              </svg>
             </a>
           ))}
+        </nav>
 
-          <span className="mx-3 h-px w-8 bg-slate-300" aria-hidden />
-
-          <a
-            href="#join"
-            className="text-slate-700 hover:text-slate-900 text-sm font-medium px-4 py-2 transition-colors duration-200"
-          >
-            Join
-          </a>
+        <div
+          className="px-8 pb-8 pt-4 flex flex-col gap-5"
+          style={{
+            opacity: open ? 1 : 0,
+            transition: `opacity 500ms cubic-bezier(0.22,1,0.36,1) ${200 + items.length * 60 + 80}ms`,
+          }}
+        >
           <a
             href="#contact"
-            className="ml-1 inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-slate-900 text-white text-sm font-medium hover:bg-blue-500 transition-colors duration-300"
+            onClick={onClose}
+            className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-full bg-slate-900 text-white text-base font-medium hover:bg-blue-500 transition-colors duration-300"
           >
-            Contact
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden
-            >
+            {startLabel}
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
               <line x1="5" y1="12" x2="19" y2="12" />
               <polyline points="12 5 19 12 12 19" />
             </svg>
           </a>
-        </nav>
 
-        <button
-          aria-label="Open menu"
-          className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-900 text-white"
-        >
-          <svg
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden
-          >
-            <line x1="3" y1="6" x2="21" y2="6" />
-            <line x1="3" y1="12" x2="21" y2="12" />
-            <line x1="3" y1="18" x2="21" y2="18" />
-          </svg>
-        </button>
-      </div>
-    </header>
+          <div className="flex items-center justify-between">
+            <LanguageSwitcher />
+            <a
+              href="#join"
+              className="text-slate-500 hover:text-slate-900 text-xs font-medium tracking-[0.18em] uppercase transition-colors"
+            >
+              {joinLabel}
+            </a>
+          </div>
+        </div>
+      </aside>
+    </div>
   );
 }

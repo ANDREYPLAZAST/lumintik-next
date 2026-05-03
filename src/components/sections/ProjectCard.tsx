@@ -1,13 +1,19 @@
+"use client";
+
 import Image from "next/image";
 import { cn } from "@/lib/cn";
-import type { Project } from "@/data/projects";
+import type { ProjectMeta } from "@/data/projects";
+import { useT } from "@/components/providers/LocaleProvider";
 
 export type ProjectCardProps = {
-  card: Project;
+  card: ProjectMeta;
   large?: boolean;
 };
 
 export function ProjectCard({ card, large = false }: ProjectCardProps) {
+  const t = useT();
+  const copy = t.projects.cards[card.key];
+
   return (
     <a href={card.href} className="group block w-full">
       <div
@@ -23,7 +29,7 @@ export function ProjectCard({ card, large = false }: ProjectCardProps) {
       >
         <Image
           src={card.image}
-          alt={card.title}
+          alt={copy.title}
           fill
           sizes={large ? "100vw" : "(min-width: 768px) 50vw, 100vw"}
           priority={large}
@@ -37,7 +43,7 @@ export function ProjectCard({ card, large = false }: ProjectCardProps) {
         {card.badge && (
           <span className="absolute top-6 left-6 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur text-slate-900 text-xs font-medium z-10">
             <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
-            {card.badge}
+            {t.projects.badge.live}
           </span>
         )}
 
@@ -62,10 +68,10 @@ export function ProjectCard({ card, large = false }: ProjectCardProps) {
 
       <div className="mt-5 flex flex-col gap-1">
         <h4 className="text-slate-900 text-2xl font-semibold leading-[33.6px]">
-          {card.title}
+          {copy.title}
         </h4>
         <h3 className="text-slate-500 text-xl md:text-2xl leading-[33.6px]">
-          {card.desc}
+          {copy.desc}
         </h3>
       </div>
     </a>

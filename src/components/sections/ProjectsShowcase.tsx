@@ -1,10 +1,13 @@
+"use client";
+
 import { MarqueeRow } from "@/components/ui/MarqueeRow";
 import { ProjectCard } from "@/components/sections/ProjectCard";
 import { featuredProject, projects } from "@/data/projects";
-
-const MARQUEE_ITEMS = ["SHOW CASE", "PROJECTS", "CASE STUDIES", "WORKS"];
+import { useT } from "@/components/providers/LocaleProvider";
 
 export function ProjectsShowcase() {
+  const t = useT();
+
   return (
     <section
       id="work"
@@ -19,10 +22,10 @@ export function ProjectsShowcase() {
 
       <div className="mx-auto max-w-[1600px] w-full">
         <div className="relative -mb-2">
-          <MarqueeRow items={MARQUEE_ITEMS} duration={28} primary />
+          <MarqueeRow items={t.projects.marquee} duration={28} primary />
           <div className="-mt-10 opacity-50">
             <MarqueeRow
-              items={MARQUEE_ITEMS}
+              items={t.projects.marquee}
               duration={36}
               primary={false}
               reverse
@@ -35,7 +38,7 @@ export function ProjectsShowcase() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
             {projects.map((card) => (
-              <ProjectCard key={card.title} card={card} />
+              <ProjectCard key={card.key} card={card} />
             ))}
           </div>
         </div>
