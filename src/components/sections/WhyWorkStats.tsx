@@ -116,7 +116,6 @@ export function WhyWorkStats() {
             desc={s.label}
             active={visible}
             delay={250 + i * 120}
-            size="sm"
           />
         ))}
       </div>
