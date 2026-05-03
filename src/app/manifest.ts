@@ -2,10 +2,10 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Lumintik — Software studio",
-    short_name: "Lumintik",
+    name: "Lumintik SAS — Software studio",
+    short_name: "Lumintik SAS",
     description:
-      "Software engineering studio for companies that care about craft.",
+      "Lumintik SAS — software engineering studio for companies that care about craft.",
     start_url: "/",
     display: "standalone",
     background_color: "#ffffff",

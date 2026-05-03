@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "Lumintik — software studio";
+export const alt = "Lumintik SAS — software studio";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -31,7 +31,7 @@ export default async function OpenGraphImage() {
             fontWeight: 700,
           }}
         >
-          LUMINTIK
+          LUMINTIK SAS
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>

@@ -182,7 +182,7 @@ const en: Messages = {
     tagline: "Software engineering studio for companies that care about craft.",
     sitemap: "Sitemap",
     elsewhere: "Elsewhere",
-    line: "Lumintik · Software studio · 2026",
+    line: "Lumintik SAS · Software studio · 2026",
     rights: "Just a mark of my existence in the vastness of the web.",
   },
   mobileMenu: {
@@ -301,7 +301,7 @@ const es: Messages = {
     tagline: "Estudio de ingeniería de software para empresas que valoran el oficio.",
     sitemap: "Mapa del sitio",
     elsewhere: "En otros lugares",
-    line: "Lumintik · Estudio de software · 2026",
+    line: "Lumintik SAS · Estudio de software · 2026",
     rights: "Solo una marca de mi existencia en la inmensidad de la web.",
   },
   mobileMenu: {

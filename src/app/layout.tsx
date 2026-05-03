@@ -11,23 +11,25 @@ const manrope = Manrope({
   display: "swap",
 });
 
+const SITE_NAME = "Lumintik SAS";
 const SITE_URL = "https://lumintik.com";
-const TITLE = "Lumintik — Software studio that builds inevitable products";
+const TITLE = "Lumintik SAS — Software studio that builds inevitable products";
 const DESCRIPTION =
-  "Lumintik is a software engineering studio for companies that care about craft. Headless commerce, applied AI, web engineering and design systems for Samsung, Claro, Coca-Cola, EZDocuAI and more.";
+  "Lumintik SAS is a software engineering studio for companies that care about craft. Headless commerce, applied AI, web engineering and design systems for Samsung, Claro, Coca-Cola, EZDocuAI and more.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default: TITLE,
-    template: "%s · Lumintik",
+    template: "%s · Lumintik SAS",
   },
   description: DESCRIPTION,
-  applicationName: "Lumintik",
+  applicationName: SITE_NAME,
   generator: "Next.js",
   referrer: "origin-when-cross-origin",
   keywords: [
     "Lumintik",
+    "Lumintik SAS",
     "software studio",
     "software engineering",
     "headless commerce",
@@ -39,9 +41,9 @@ export const metadata: Metadata = {
     "Claro",
     "EZDocuAI",
   ],
-  authors: [{ name: "Lumintik", url: SITE_URL }],
-  creator: "Lumintik",
-  publisher: "Lumintik",
+  authors: [{ name: SITE_NAME, url: SITE_URL }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
   category: "technology",
   alternates: {
     canonical: "/",
@@ -52,7 +54,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    siteName: "Lumintik",
+    siteName: SITE_NAME,
     title: TITLE,
     description: DESCRIPTION,
     url: SITE_URL,
@@ -80,7 +82,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "Lumintik",
+    title: SITE_NAME,
   },
   formatDetection: {
     telephone: false,
@@ -103,9 +105,12 @@ export const viewport: Viewport = {
 const ORGANIZATION_JSONLD = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "Lumintik",
+  name: SITE_NAME,
+  legalName: SITE_NAME,
+  alternateName: "Lumintik",
   url: SITE_URL,
   logo: `${SITE_URL}/lumintik-logo.png`,
+  image: `${SITE_URL}/lumintik-icon.png`,
   description: DESCRIPTION,
   sameAs: [
     "https://github.com/ANDREYPLAZAST",
@@ -116,10 +121,10 @@ const ORGANIZATION_JSONLD = {
 const WEBSITE_JSONLD = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  name: "Lumintik",
+  name: SITE_NAME,
   url: SITE_URL,
   inLanguage: ["en", "es"],
-  publisher: { "@type": "Organization", name: "Lumintik" },
+  publisher: { "@type": "Organization", name: SITE_NAME },
 };
 
 export default function RootLayout({
