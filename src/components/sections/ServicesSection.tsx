@@ -7,39 +7,49 @@ import { useT } from "@/components/providers/LocaleProvider";
 export function ServicesSection() {
   const t = useT();
   const heading = `${t.services.title} ${t.services.titleAccent}`;
+  const words = heading.split(" ");
+  const totalChars = heading.length;
 
   return (
     <section
       id="services"
-      className="relative bg-white box-border outline-none px-5 py-14 md:px-0 md:py-20 z-[2] w-full"
+      className="relative box-border outline-none px-5 py-6 md:px-0 md:py-10 z-[2] w-full"
     >
       <div className="box-border max-w-none w-full mx-auto md:max-w-screen-xl">
-        <div className="items-start box-border gap-x-5 flex flex-col justify-between max-w-none gap-y-5 w-full mt-20 mb-5 mx-auto md:items-end md:gap-x-[normal] md:flex-row md:max-w-screen-xl md:gap-y-[normal] md:mb-10">
+        <div className="items-start box-border gap-x-5 flex flex-col justify-between max-w-none gap-y-5 w-full mb-5 mx-auto md:items-end md:gap-x-[normal] md:flex-row md:max-w-screen-xl md:gap-y-[normal] md:mb-10">
           <div className="box-border min-h-[auto] min-w-[auto]">
             <div className="box-border">
               <h2
                 aria-label={heading}
-                className="text-transparent text-[38px] font-bold bg-clip-text box-border leading-[38px] max-w-xl md:text-6xl md:leading-[60px]"
+                className="text-transparent text-[38px] font-bold bg-clip-text box-border leading-[1.05] tracking-tight max-w-xl md:text-6xl md:leading-[1.1]"
               >
-                <span className="text-[38px] box-border leading-[38px] md:text-6xl md:leading-[60px]">
-                  {heading.split("").map((ch, i) => {
-                    const ratio = i / Math.max(1, heading.length - 1);
-                    return (
-                      <span
-                        key={i}
-                        className="text-[38px] bg-clip-text box-border inline-block leading-[38px] md:text-6xl md:leading-[60px]"
-                        style={{
-                          backgroundImage:
-                            "linear-gradient(to right, rgb(59,130,246) 0%, rgb(15,23,42) 50%, rgb(59,130,246) 100%)",
-                          backgroundSize: "1100% 100%",
-                          backgroundPosition: `${ratio * 100}% top`,
-                        }}
-                      >
-                        {ch === " " ? " " : ch}
-                      </span>
-                    );
-                  })}
-                </span>
+                {words.map((word, wi) => {
+                  let charsBefore = 0;
+                  for (let k = 0; k < wi; k++) charsBefore += words[k].length + 1;
+                  return (
+                    <span key={wi} className="inline-block whitespace-nowrap">
+                      {word.split("").map((ch, ci) => {
+                        const idx = charsBefore + ci;
+                        const ratio = idx / Math.max(1, totalChars - 1);
+                        return (
+                          <span
+                            key={ci}
+                            className="bg-clip-text"
+                            style={{
+                              backgroundImage:
+                                "linear-gradient(to right, rgb(59,130,246) 0%, rgb(15,23,42) 50%, rgb(59,130,246) 100%)",
+                              backgroundSize: "1100% 100%",
+                              backgroundPosition: `${ratio * 100}% top`,
+                            }}
+                          >
+                            {ch}
+                          </span>
+                        );
+                      })}
+                      {wi < words.length - 1 ? " " : ""}
+                    </span>
+                  );
+                })}
               </h2>
             </div>
           </div>

@@ -7,21 +7,32 @@ import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
 
 export function Navbar() {
   const [mounted, setMounted] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [darkText, setDarkText] = useState(false);
+  const [bgVisible, setBgVisible] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const { isLoading } = useLocale();
   const t = useT();
   const navItems = [
     { label: t.nav.work, href: "#work" },
-    { label: t.nav.approach, href: "#approach" },
     { label: t.nav.services, href: "#services" },
-    { label: t.nav.news, href: "#news" },
-    { label: t.nav.about, href: "#about" },
   ];
 
   useEffect(() => {
     const t = setTimeout(() => setMounted(true), 50);
-    const onScroll = () => setScrolled(window.scrollY > 12);
+    const onScroll = () => {
+      const riseEl = document.getElementById("content-rise");
+      const vh = window.innerHeight || 1;
+      if (riseEl) {
+        const top = riseEl.getBoundingClientRect().top;
+        // Text switches to dark when hero reaches its final light state.
+        setDarkText(top < vh * 3.5);
+        // Background only appears once we leave the hero entirely.
+        setBgVisible(top <= 0);
+      } else {
+        setDarkText(window.scrollY > 12);
+        setBgVisible(window.scrollY > 12);
+      }
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
     return () => {
@@ -29,6 +40,8 @@ export function Navbar() {
       window.removeEventListener("scroll", onScroll);
     };
   }, []);
+
+  const scrolled = darkText;
 
   // Lock body scroll when menu is open and close on Escape.
   useEffect(() => {
@@ -49,7 +62,7 @@ export function Navbar() {
     <>
       <header
         className={`fixed top-0 left-0 right-0 z-[50] transition-all duration-500 ${
-          scrolled
+          bgVisible
             ? "bg-white/70 backdrop-blur-md border-b border-slate-200/60"
             : "bg-transparent"
         }`}
@@ -60,7 +73,7 @@ export function Navbar() {
             "opacity 0.7s cubic-bezier(0.22,1,0.36,1) 100ms, transform 0.7s cubic-bezier(0.22,1,0.36,1) 100ms, background-color 0.4s, backdrop-filter 0.4s, border-color 0.4s",
         }}
       >
-        <div className="mx-auto flex items-center justify-between max-w-[1600px] w-full px-6 md:px-12 py-3 md:py-3">
+        <div className="mx-auto flex items-center justify-between max-w-[1600px] w-full pl-10 pr-6 md:pl-20 md:pr-12 py-3 md:py-3">
           <a
             href="#"
             aria-label="Lumintik — home"
@@ -92,21 +105,23 @@ export function Navbar() {
               <a
                 key={item.label}
                 href={item.href}
-                className="relative text-slate-700 hover:text-slate-900 text-sm font-medium px-4 py-2 rounded-full transition-colors duration-200 hover:bg-slate-100"
+                className={`relative text-sm font-medium px-4 py-2 rounded-full transition-colors duration-300 ${
+                  scrolled
+                    ? "text-slate-700 hover:text-slate-900 hover:bg-slate-100"
+                    : "text-white/80 hover:text-white hover:bg-white/10"
+                }`}
               >
                 {item.label}
               </a>
             ))}
 
             <a
-              href="#join"
-              className="ml-2 text-slate-700 hover:text-slate-900 text-sm font-medium px-3 py-2 transition-colors duration-200"
-            >
-              {t.nav.join}
-            </a>
-            <a
               href="#contact"
-              className="ml-1 inline-flex items-center gap-2 px-5 py-2 rounded-full bg-slate-900 text-white text-sm font-medium hover:bg-blue-500 transition-colors duration-300"
+              className={`ml-1 inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-medium transition-colors duration-300 ${
+                scrolled
+                  ? "bg-slate-900 text-white hover:bg-blue-500"
+                  : "bg-white text-slate-900 hover:bg-blue-300"
+              }`}
             >
               {t.nav.contact}
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
@@ -114,13 +129,23 @@ export function Navbar() {
                 <polyline points="12 5 19 12 12 19" />
               </svg>
             </a>
+
+            <span
+              className={`ml-3 inline-flex transition-colors duration-300 ${
+                scrolled ? "text-slate-700" : "text-white/80"
+              }`}
+            >
+              <LanguageSwitcher />
+            </span>
           </nav>
 
           <button
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((v) => !v)}
-            className="md:hidden relative inline-flex items-center justify-center w-12 h-12 rounded-full bg-slate-900 text-white z-[110]"
+            className={`md:hidden relative inline-flex items-center justify-center w-12 h-12 rounded-full z-[110] transition-colors duration-300 ${
+              scrolled ? "bg-slate-900 text-white" : "bg-white text-slate-900"
+            }`}
           >
             <span
               className="absolute block w-5 h-px bg-current"

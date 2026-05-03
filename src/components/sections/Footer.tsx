@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useT } from "@/components/providers/LocaleProvider";
 
 const SOCIAL_LINKS = [
@@ -10,6 +11,8 @@ const SOCIAL_LINKS = [
 
 export function Footer() {
   const t = useT();
+  const [shift, setShift] = useState(0);
+
   const footerLinks = [
     { label: t.nav.work, href: "#work" },
     { label: t.nav.services, href: "#services" },
@@ -17,21 +20,77 @@ export function Footer() {
     { label: t.nav.contact, href: "#contact" },
   ];
 
+  // Track scroll within the footer wrapper to invert text colors.
+  useEffect(() => {
+    let ticking = false;
+    const update = () => {
+      const wrap = document.getElementById("footer-wrap");
+      const vh = window.innerHeight || 1;
+      if (wrap) {
+        const rect = wrap.getBoundingClientRect();
+        const start = vh * 0.8;
+        const end = -vh * 0.4;
+        const raw = (start - rect.top) / (start - end);
+        setShift(Math.max(0, Math.min(1, raw)));
+      }
+      ticking = false;
+    };
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(update);
+        ticking = true;
+      }
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const lerp = (a: number[], b: number[], t: number) =>
+    a.map((v, i) => Math.round(v + (b[i] - v) * t));
+  const rgb = (c: number[]) => `rgb(${c.join(",")})`;
+  const titleColor = rgb(lerp([15, 23, 42], [255, 255, 255], shift));
+  const accentColor = rgb(lerp([59, 130, 246], [147, 197, 253], shift));
+  const tagColor = rgb(lerp([71, 85, 105], [203, 213, 225], shift));
+  const labelColor = rgb(lerp([100, 116, 139], [148, 163, 184], shift));
+  const linkColor = rgb(lerp([51, 65, 85], [203, 213, 225], shift));
+  const lineColor = `rgba(${shift > 0.5 ? "255,255,255" : "15,23,42"},0.12)`;
+  const btnBg = rgb(lerp([15, 23, 42], [255, 255, 255], shift));
+  const btnText = rgb(lerp([255, 255, 255], [15, 23, 42], shift));
+
   return (
-    <footer className="relative w-full bg-neutral-900 text-white z-[2]">
-      <div className="mx-auto max-w-[1600px] w-full px-6 md:px-12 py-16 md:py-24">
+    <footer
+      id="footer"
+      className="relative w-full z-[2] overflow-hidden flex-1 flex flex-col justify-end"
+    >
+      <div className="relative mx-auto max-w-[1600px] w-full px-6 md:px-12 py-28 md:py-44">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16">
           <div>
-            <h3 className="text-3xl md:text-4xl font-semibold tracking-tight">
+            <h3
+              className="text-3xl md:text-4xl font-semibold tracking-tight"
+              style={{ color: titleColor, transition: "color 0.4s ease" }}
+            >
               {t.footer.cta.lead}{" "}
-              <span className="italic text-blue-400">{t.footer.cta.accent}</span>
+              <span
+                className="italic"
+                style={{ color: accentColor, transition: "color 0.4s ease" }}
+              >
+                {t.footer.cta.accent}
+              </span>
             </h3>
-            <p className="mt-4 text-slate-400 text-base max-w-md">
+            <p
+              className="mt-4 text-base max-w-md"
+              style={{ color: tagColor, transition: "color 0.4s ease" }}
+            >
               {t.footer.tagline}
             </p>
             <a
               href="#contact"
-              className="inline-flex items-center gap-2 mt-8 px-6 py-3 rounded-full bg-white text-neutral-900 text-sm font-medium hover:bg-blue-500 hover:text-white transition-colors duration-300"
+              className="inline-flex items-center gap-2 mt-8 px-6 py-3 rounded-full text-sm font-medium transition-colors duration-300"
+              style={{
+                backgroundColor: btnBg,
+                color: btnText,
+              }}
             >
               {t.hero.startProject}
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
@@ -42,7 +101,10 @@ export function Footer() {
           </div>
 
           <nav aria-label="Footer navigation">
-            <h4 className="text-xs uppercase tracking-[0.2em] text-slate-500">
+            <h4
+              className="text-xs uppercase tracking-[0.2em]"
+              style={{ color: labelColor, transition: "color 0.4s ease" }}
+            >
               {t.footer.sitemap}
             </h4>
             <ul className="mt-6 flex flex-col gap-3">
@@ -50,7 +112,8 @@ export function Footer() {
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="text-slate-300 hover:text-white text-base transition-colors"
+                    className="text-base transition-colors hover:opacity-70"
+                    style={{ color: linkColor }}
                   >
                     {link.label}
                   </a>
@@ -60,7 +123,10 @@ export function Footer() {
           </nav>
 
           <nav aria-label="Social links">
-            <h4 className="text-xs uppercase tracking-[0.2em] text-slate-500">
+            <h4
+              className="text-xs uppercase tracking-[0.2em]"
+              style={{ color: labelColor, transition: "color 0.4s ease" }}
+            >
               {t.footer.elsewhere}
             </h4>
             <ul className="mt-6 flex flex-col gap-3">
@@ -70,7 +136,8 @@ export function Footer() {
                     href={link.href}
                     target="_blank"
                     rel="noreferrer noopener"
-                    className="text-slate-300 hover:text-white text-base transition-colors"
+                    className="text-base transition-colors hover:opacity-70"
+                    style={{ color: linkColor }}
                   >
                     {link.label}
                   </a>
@@ -80,11 +147,22 @@ export function Footer() {
           </nav>
         </div>
 
-        <div className="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          <p className="text-slate-500 text-xs tracking-[0.18em] uppercase">
+        <div
+          className="mt-16 pt-8 border-t flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
+          style={{ borderColor: lineColor, transition: "border-color 0.4s ease" }}
+        >
+          <p
+            className="text-xs tracking-[0.18em] uppercase"
+            style={{ color: labelColor, transition: "color 0.4s ease" }}
+          >
             {t.footer.line}
           </p>
-          <p className="text-slate-500 text-xs">{t.footer.rights}</p>
+          <p
+            className="text-xs"
+            style={{ color: labelColor, transition: "color 0.4s ease" }}
+          >
+            {t.footer.rights}
+          </p>
         </div>
       </div>
     </footer>

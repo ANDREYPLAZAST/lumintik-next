@@ -7,7 +7,9 @@ export type ProjectKey =
   | "atto"
   | "ezmig"
   | "lenspr"
-  | "piebald";
+  | "piebald"
+  | "accesify"
+  | "fridoom";
 
 export type ProjectMeta = {
   key: ProjectKey;
@@ -34,4 +36,16 @@ export const projects: ProjectMeta[] = [
   { key: "ezmig", image: "/projects/ezmig/home.png", href: "#work" },
   { key: "lenspr", image: "/projects/lenspr/home.png", href: "#work" },
   { key: "piebald", image: "/projects/piebald/loaded.png", href: "https://www.piebaldcapital.com/", badge: true },
+  {
+    key: "accesify",
+    image: "/projects/accesify/home.png",
+    href: "https://www.accesify.com/",
+    badge: true,
+  },
+  {
+    key: "fridoom",
+    image: "/projects/fridoom/home.png",
+    href: "https://fridoom.com/",
+    badge: true,
+  },
 ];

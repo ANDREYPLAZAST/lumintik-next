@@ -14,6 +14,7 @@ export type Messages = {
     eyebrow: string;
     titleParts: string[];
     titleAccent: string;
+    titleAccentRotations: string[];
     description: {
       lead: string;
       matters: string;
@@ -28,6 +29,7 @@ export type Messages = {
     titleAccent: string;
     aria: string;
   };
+  tape: string[];
   services: {
     eyebrow: string;
     title: string;
@@ -53,10 +55,17 @@ export type Messages = {
       | "atto"
       | "ezmig"
       | "lenspr"
-      | "piebald",
+      | "piebald"
+      | "accesify"
+      | "fridoom",
       { title: string; desc: string }
     >;
     badge: { live: string };
+  };
+  whyWork: {
+    eyebrow: string;
+    headline: { lead: string; muted: string; tail: string };
+    stats: { value: number; suffix: string; label: string }[];
   };
   footer: {
     cta: { lead: string; accent: string };
@@ -86,6 +95,7 @@ const en: Messages = {
     eyebrow: "Software studio · 2026",
     titleParts: ["We", "build", "software", "that", "feels"],
     titleAccent: "inevitable.",
+    titleAccentRotations: ["inevitable.", "unforgettable.", "unstoppable."],
     description: {
       lead: "Software engineering studio for companies that understand the difference between a product that works and one that",
       matters: "matters",
@@ -100,6 +110,13 @@ const en: Messages = {
     titleAccent: "build for.",
     aria: "Companies we build for",
   },
+  tape: [
+    "Software that feels inevitable",
+    "Headless commerce at the edge",
+    "Applied AI, shipped to production",
+    "Design and engineering, in the same room",
+    "Built by engineers, not by templates",
+  ],
   services: {
     eyebrow: "What we do",
     title: "Why work",
@@ -174,8 +191,30 @@ const en: Messages = {
         title: "Piebald Capital",
         desc: "Boutique investment bank — Shadow Banking, SPACs across Mexico, USA and Spain.",
       },
+      accesify: {
+        title: "Accesify",
+        desc: "E-commerce for premium phone accessories — iPhone & Samsung cases, screen protectors and more.",
+      },
+      fridoom: {
+        title: "Fridoom",
+        desc: "Personal finance brand with 50,000+ followers across social media — practical financial education for the next generation.",
+      },
     },
     badge: { live: "Live" },
+  },
+  whyWork: {
+    eyebrow: "Why work with us?",
+    headline: {
+      lead: "It's not just about shipping software. It's about ",
+      muted: "engineering products that earn trust",
+      tail: " and outlast trends.",
+    },
+    stats: [
+      { value: 100, suffix: "%", label: "Work completed in house" },
+      { value: 10, suffix: "+", label: "Years crafting digital products" },
+      { value: 150, suffix: "+", label: "Happy clients across 3 continents" },
+      { value: 12, suffix: "+", label: "Industries shipped — fintech, AI, telecom, e-commerce" },
+    ],
   },
   footer: {
     cta: { lead: "Let's build something", accent: "inevitable." },
@@ -205,6 +244,7 @@ const es: Messages = {
     eyebrow: "Estudio de software · 2026",
     titleParts: ["Creamos", "software", "que", "se", "siente"],
     titleAccent: "inevitable.",
+    titleAccentRotations: ["inevitable.", "inolvidable.", "imparable."],
     description: {
       lead: "Estudio de ingeniería de software para empresas que entienden la diferencia entre un producto que funciona y uno que",
       matters: "importa",
@@ -219,6 +259,13 @@ const es: Messages = {
     titleAccent: "construimos.",
     aria: "Empresas para las que construimos",
   },
+  tape: [
+    "Software que se siente inevitable",
+    "Commerce headless en el edge",
+    "IA aplicada, lista para producción",
+    "Diseño e ingeniería, en la misma sala",
+    "Hecho por ingenieros, no por plantillas",
+  ],
   services: {
     eyebrow: "Qué hacemos",
     title: "¿Por qué trabajar",
@@ -293,8 +340,30 @@ const es: Messages = {
         title: "Piebald Capital",
         desc: "Banca de inversión boutique — Shadow Banking, SPACs en México, EE.UU. y España.",
       },
+      accesify: {
+        title: "Accesify",
+        desc: "E-commerce de accesorios premium para móviles — fundas para iPhone y Samsung, protectores de pantalla y más.",
+      },
+      fridoom: {
+        title: "Fridoom",
+        desc: "Marca de finanzas personales con más de 50.000 seguidores en redes sociales — educación financiera práctica para nuevas generaciones.",
+      },
     },
     badge: { live: "En vivo" },
+  },
+  whyWork: {
+    eyebrow: "¿Por qué trabajar con nosotros?",
+    headline: {
+      lead: "No se trata solo de lanzar software. Se trata de ",
+      muted: "ingeniería de productos que se ganan la confianza",
+      tail: " y trascienden las tendencias.",
+    },
+    stats: [
+      { value: 100, suffix: "%", label: "Trabajo realizado in-house" },
+      { value: 10, suffix: "+", label: "Años creando productos digitales" },
+      { value: 150, suffix: "+", label: "Clientes felices en 3 continentes" },
+      { value: 12, suffix: "+", label: "Industrias atendidas — fintech, IA, telco, e-commerce" },
+    ],
   },
   footer: {
     cta: { lead: "Construyamos algo", accent: "inevitable." },
