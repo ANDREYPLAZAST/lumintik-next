@@ -86,6 +86,7 @@ export function ServicesSection() {
                 description={copy.desc}
                 videoSrc={service.videoSrc}
                 span={service.span}
+                mobileObjectPosition={service.key === "uxui" ? "right center" : undefined}
               />
             );
           })}

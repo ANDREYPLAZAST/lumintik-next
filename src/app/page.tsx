@@ -5,6 +5,7 @@ import { ServicesSection } from "@/components/sections/ServicesSection";
 import { ProjectsShowcase } from "@/components/sections/ProjectsShowcase";
 import { Footer } from "@/components/sections/Footer";
 import { MarqueeTape } from "@/components/sections/MarqueeTape";
+import { ContactSection } from "@/components/sections/ContactSection";
 
 export default function Home() {
   return (
@@ -31,11 +32,12 @@ export default function Home() {
           <ServicesSection />
           <ProjectsShowcase />
           <MarqueeTape />
+          <ContactSection />
         </div>
       </main>
       <div
         id="footer-wrap"
-        className="relative w-full flex justify-center overflow-clip"
+        className="relative w-full flex justify-center overflow-clip -mt-[100vh]"
         style={{
           height: "200vh",
           background:

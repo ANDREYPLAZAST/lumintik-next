@@ -22,7 +22,8 @@ export type ProjectMeta = {
 
 export const featuredProject: ProjectMeta = {
   key: "samsung",
-  image: "/projects/samsung/home-desktop.png",
+  image:
+    "https://res.cloudinary.com/dukysmhpu/image/upload/f_auto,q_auto:good,w_1920,c_limit/v1777949341/Disen%CC%83o_sin_ti%CC%81tulo_hyawmt.jpg",
   href: "https://imagiq.com",
   badge: true,
 };

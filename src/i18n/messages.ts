@@ -7,6 +7,7 @@ export type Messages = {
     services: string;
     news: string;
     about: string;
+    home: string;
     join: string;
     contact: string;
   };
@@ -79,6 +80,21 @@ export type Messages = {
     startProject: string;
     joinUs: string;
   };
+  contactForm: {
+    title: string;
+    subtitle: string;
+    name: string;
+    service: string;
+    serviceSelect: string;
+    email: string;
+    phone: string;
+    company: string;
+    role: string;
+    message: string;
+    attachment: string;
+    terms: string;
+    submit: string;
+  };
 };
 
 const en: Messages = {
@@ -88,14 +104,15 @@ const en: Messages = {
     services: "Services",
     news: "News",
     about: "About",
+    home: "Home",
     join: "Join",
     contact: "Contact",
   },
   hero: {
     eyebrow: "Software studio · 2026",
     titleParts: ["We", "build", "software", "that", "feels"],
-    titleAccent: "inevitable.",
-    titleAccentRotations: ["inevitable.", "unforgettable.", "unstoppable."],
+    titleAccent: "intuitive.",
+    titleAccentRotations: ["intuitive.", "scalable.", "indispensable."],
     description: {
       lead: "Software engineering studio for companies that understand the difference between a product that works and one that",
       matters: "matters",
@@ -118,9 +135,9 @@ const en: Messages = {
     "Built by engineers, not by templates",
   ],
   services: {
-    eyebrow: "What we do",
-    title: "Why work",
-    titleAccent: "with us?",
+    eyebrow: "Our services",
+    title: "Our",
+    titleAccent: "services.",
     items: {
       productDevelopment: {
         title: "Product Development",
@@ -228,6 +245,21 @@ const en: Messages = {
     startProject: "Start a project",
     joinUs: "Join us",
   },
+  contactForm: {
+    title: "Get a Quote",
+    subtitle: "Complete the form and discover how we can help you achieve your growth goals with custom solutions.",
+    name: "Name *",
+    service: "Service/Solution of interest",
+    serviceSelect: "Select a product",
+    email: "Email address *",
+    phone: "Phone",
+    company: "Company name",
+    role: "Your role",
+    message: "Tell us a bit about your company",
+    attachment: "Attach file (PDF, Image, etc.)",
+    terms: "By submitting you agree to our privacy policy and terms and conditions",
+    submit: "Send",
+  },
 };
 
 const es: Messages = {
@@ -237,14 +269,15 @@ const es: Messages = {
     services: "Servicios",
     news: "Novedades",
     about: "Nosotros",
+    home: "Inicio",
     join: "Únete",
     contact: "Contacto",
   },
   hero: {
     eyebrow: "Estudio de software · 2026",
     titleParts: ["Creamos", "software", "que", "se", "siente"],
-    titleAccent: "inevitable.",
-    titleAccentRotations: ["inevitable.", "inolvidable.", "imparable."],
+    titleAccent: "intuitivo.",
+    titleAccentRotations: ["intuitivo.", "escalable.", "indispensable."],
     description: {
       lead: "Estudio de ingeniería de software para empresas que entienden la diferencia entre un producto que funciona y uno que",
       matters: "importa",
@@ -267,9 +300,9 @@ const es: Messages = {
     "Hecho por ingenieros, no por plantillas",
   ],
   services: {
-    eyebrow: "Qué hacemos",
-    title: "¿Por qué trabajar",
-    titleAccent: "con nosotros?",
+    eyebrow: "Nuestros servicios",
+    title: "Nuestros",
+    titleAccent: "servicios.",
     items: {
       productDevelopment: {
         title: "Desarrollo de Producto",
@@ -360,8 +393,8 @@ const es: Messages = {
     },
     stats: [
       { value: 100, suffix: "%", label: "Trabajo realizado in-house" },
-      { value: 10, suffix: "+", label: "Años creando productos digitales" },
-      { value: 150, suffix: "+", label: "Clientes felices en 3 continentes" },
+      { value: 2, suffix: "+", label: "Año creando productos digitales" },
+      { value: 15, suffix: "+", label: "Clientes felices en 3 continentes" },
       { value: 12, suffix: "+", label: "Industrias atendidas — fintech, IA, telco, e-commerce" },
     ],
   },
@@ -376,6 +409,21 @@ const es: Messages = {
   mobileMenu: {
     startProject: "Iniciar un proyecto",
     joinUs: "Únete",
+  },
+  contactForm: {
+    title: "Cotización",
+    subtitle: "Completa el formulario de cotización y descubre cómo podemos ayudarte a alcanzar tus objetivos de crecimiento con soluciones personalizadas.",
+    name: "Nombre *",
+    service: "Servicio/Solución de interés",
+    serviceSelect: "Selecciona un producto",
+    email: "Correo electrónico *",
+    phone: "Teléfono",
+    company: "Nombre de la empresa",
+    role: "Tu cargo",
+    message: "Cuéntanos un poco sobre tu empresa",
+    attachment: "Adjuntar archivo (PDF, Imagen, etc.)",
+    terms: "Al enviar aceptas la política de tratamiento de datos personales y los términos y condiciones",
+    submit: "Enviar",
   },
 };
 

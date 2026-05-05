@@ -9,6 +9,8 @@ export type ServiceCardProps = {
   videoSrc?: string;
   /** Tailwind classes that control the card's column span and borders. */
   span: string;
+  /** CSS object-position for the video on mobile (e.g. "right center"). Defaults to "center". */
+  mobileObjectPosition?: string;
 };
 
 export function ServiceCard({
@@ -16,14 +18,19 @@ export function ServiceCard({
   description,
   videoSrc,
   span,
-}: ServiceCardProps) {
+  mobileObjectPosition,
+}: Readonly<ServiceCardProps>) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [hovered, setHovered] = useState(false);
+
+  const defaultTime = videoSrc && videoSrc.includes("#t=") 
+    ? parseFloat(videoSrc.split("#t=")[1]) || 0 
+    : 0;
 
   const handleMouseEnter = () => {
     setHovered(true);
     if (videoRef.current) {
-      videoRef.current.currentTime = 0;
+      videoRef.current.currentTime = defaultTime;
       videoRef.current.play().catch(() => {});
     }
   };
@@ -32,17 +39,22 @@ export function ServiceCard({
     setHovered(false);
     if (videoRef.current) {
       videoRef.current.pause();
+      videoRef.current.currentTime = defaultTime;
     }
   };
 
   return (
-    <div
+    <button
+      type="button"
       className={cn(
-        "relative box-border h-96 outline-none border-slate-200 overflow-hidden border-solid cursor-pointer",
+        "relative box-border h-96 w-full text-left outline-none border-slate-200 overflow-hidden border-solid cursor-pointer bg-transparent p-0",
         span,
       )}
+      aria-label={title}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onFocus={handleMouseEnter}
+      onBlur={handleMouseLeave}
     >
       <div className="relative box-border h-full w-full overflow-hidden bg-white">
         {videoSrc && (
@@ -54,28 +66,29 @@ export function ServiceCard({
             playsInline
             preload="auto"
             className={cn(
-              "absolute inset-0 w-full h-full object-cover z-0 transition-opacity duration-700",
-              hovered ? "opacity-100" : "opacity-0",
+              "absolute inset-0 w-full h-full object-cover z-0 transition-transform duration-700",
+              hovered ? "scale-[1.03]" : "scale-100",
+              mobileObjectPosition ? "md:!object-center" : "",
             )}
+            style={mobileObjectPosition ? { objectPosition: mobileObjectPosition } : undefined}
           />
         )}
 
         <div
           className={cn(
-            "absolute inset-0 z-0 transition-all duration-700",
-            hovered ? "bg-slate-100/50 scale-105" : "bg-slate-50",
+            "absolute inset-0 z-10 transition-colors duration-500",
+            hovered ? "bg-black/25" : "bg-black/15",
           )}
-          style={{ transformOrigin: "center" }}
         />
 
-        <div className="absolute bg-[linear-gradient(to_top,rgb(255,255,255)_0px,rgba(255,255,255,0.5)_50%,rgba(255,255,255,0)_100%)] box-border h-[300px] w-full z-20 left-0 bottom-0 pointer-events-none" />
+        <div className="absolute bg-[linear-gradient(to_top,rgba(2,6,23,0.92)_0%,rgba(2,6,23,0.55)_38%,rgba(2,6,23,0.08)_76%,rgba(2,6,23,0)_100%)] box-border h-[320px] w-full z-20 left-0 bottom-0 pointer-events-none" />
 
         <div className="relative h-[18px] w-[18px] z-20 left-5 top-5 rounded-full border border-slate-300" />
 
         <span
           className={cn(
             "absolute text-4xl font-semibold box-border block leading-10 w-[calc(100%_-_40px)] z-20 left-5 bottom-4 transition-colors duration-500",
-            hovered ? "text-white" : "text-slate-900",
+            "text-white",
           )}
         >
           {description && (
@@ -84,7 +97,7 @@ export function ServiceCard({
                 "text-sm font-normal leading-snug mb-3 transition-all duration-500",
                 hovered
                   ? "text-white/90 opacity-100 translate-y-0"
-                  : "text-slate-600 opacity-0 translate-y-2",
+                  : "text-white/80 opacity-0 translate-y-2",
               )}
             >
               {description}
@@ -102,7 +115,7 @@ export function ServiceCard({
                 "box-border h-7 w-7 flex items-center justify-center transition-all duration-500",
                 hovered
                   ? "opacity-100 translate-x-1 text-white"
-                  : "opacity-70 translate-x-0 text-slate-900",
+                  : "opacity-70 translate-x-0 text-white",
               )}
             >
               <svg
@@ -132,6 +145,6 @@ export function ServiceCard({
           )}
         />
       </div>
-    </div>
+    </button>
   );
 }

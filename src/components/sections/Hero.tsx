@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useT } from "@/components/providers/LocaleProvider";
+import Spline from "@splinetool/react-spline";
 
 export function Hero() {
   const t = useT();
@@ -72,7 +73,7 @@ export function Hero() {
   return (
     <header
       id="hero"
-      className="relative flex flex-col w-full max-w-[1600px] h-full px-6 md:px-20 pt-28 md:pt-32 pb-10 md:pb-6 overflow-hidden z-[2]"
+      className="relative flex flex-col w-full h-full px-6 md:px-20 pt-28 md:pt-32 pb-10 md:pb-6 overflow-hidden z-[2]"
     >
       <div
         aria-hidden
@@ -103,7 +104,7 @@ export function Hero() {
             "linear-gradient(180deg, #000 0%, #000 50%, rgba(0,0,0,0.3) 80%, rgba(0,0,0,0) 100%)",
         }}
       />
-      <div className="relative flex flex-col flex-1 justify-between w-full pt-6 md:pt-16 pb-8 md:pb-12">
+      <div className="relative flex flex-col flex-1 justify-between w-full max-w-[1600px] mx-auto pt-6 md:pt-16 pb-8 md:pb-12">
         <div className="md:max-w-[80%]">
           <span
             className="block uppercase tracking-[0.2em] text-xs md:text-sm font-medium mb-5 md:mb-6"
@@ -117,7 +118,7 @@ export function Hero() {
           </span>
 
           <h1
-            className="text-[44px] leading-[1.05] md:text-7xl md:leading-[1.1] font-semibold tracking-tight"
+            className="text-[36px] leading-[1.08] md:text-7xl md:leading-[1.1] font-semibold tracking-tight"
             style={{ color: titleColor, transition: "color 0.4s ease" }}
           >
             {t.hero.titleParts.map((text, i) => {
@@ -177,8 +178,12 @@ export function Hero() {
           </h1>
         </div>
 
+        <style dangerouslySetInnerHTML={{ __html: `
+          spline-viewer::part(logo) { display: none !important; }
+          #logo { display: none !important; }
+        `}} />
         <div
-          className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between md:gap-8 mt-10 md:mt-0"
+          className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between md:gap-8 mt-[300px] md:mt-0 relative"
           style={{
             opacity: started ? 1 : 0,
             transform: started ? "translateY(0)" : "translateY(30px)",
@@ -186,8 +191,25 @@ export function Hero() {
               "opacity 0.8s cubic-bezier(0.22,1,0.36,1) 1100ms, transform 0.8s cubic-bezier(0.22,1,0.36,1) 1100ms",
           }}
         >
+          {/* Spline 3D Scene anchored to the top of the description block so it pushes up on mobile */}
+          <div 
+            className="absolute left-1/2 flex items-center justify-center -translate-x-[50%] bottom-[100%] md:left-auto md:-translate-x-0 md:right-[-40px] md:bottom-full w-[300px] h-[380px] md:w-[650px] md:h-[650px] mb-[-40px] md:mb-[-100px] pointer-events-none z-0"
+            style={{
+              clipPath: "polygon(0% 0%, 100% 0%, 100% calc(100% - 70px), max(50%, calc(100% - 180px)) calc(100% - 70px), max(50%, calc(100% - 180px)) 100%, min(50%, 180px) 100%, min(50%, 180px) calc(100% - 70px), 0% calc(100% - 70px))"
+            }}
+          >
+            {/* pointer-events-auto restores drag controls. scaleX(-1) reliably mirrors the model. touch-none allows mobile fingers to freely orbit without scrolling the page. onWheelCapture stops zooming. */}
+            <div 
+              className="absolute inset-0 w-full h-full pointer-events-auto cursor-grab active:cursor-grabbing touch-none"
+              style={{ transform: "scaleX(-1)" }}
+              onWheelCapture={(e) => e.stopPropagation()}
+            >
+              <Spline scene="https://prod.spline.design/Hic65A1wo9S7zyNu/scene.splinecode?v=7" />
+            </div>
+          </div>
+
           <p
-            className="text-base md:text-xl leading-relaxed md:max-w-[60%]"
+            className="text-sm md:text-xl leading-relaxed md:max-w-[60%] z-10 relative pointer-events-auto"
             style={{ color: bodyColor, transition: "color 0.4s ease" }}
           >
             {t.hero.description.lead}{" "}
@@ -224,31 +246,33 @@ export function Hero() {
             .
           </p>
 
-          <div className="flex flex-wrap items-center gap-3">
-            <a
-              href="#contact"
-              className="inline-flex items-center gap-2 px-5 py-3 md:px-6 rounded-full text-sm font-medium transition-colors duration-300"
-              style={{
-                backgroundColor: rgb(lerp([255, 255, 255], [15, 23, 42], shift)),
-                color: rgb(lerp([15, 23, 42], [255, 255, 255], shift)),
-              }}
-            >
-              {t.hero.startProject}
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                <line x1="5" y1="12" x2="19" y2="12" />
-                <polyline points="12 5 19 12 12 19" />
-              </svg>
-            </a>
-            <a
-              href="#approach"
-              className="inline-flex items-center gap-2 px-5 py-3 md:px-6 rounded-full border text-sm font-medium transition-colors duration-300"
-              style={{
-                color: rgb(lerp([255, 255, 255], [15, 23, 42], shift)),
-                borderColor: `rgba(${shift > 0.5 ? "15,23,42" : "255,255,255"},0.3)`,
-              }}
-            >
-              {t.hero.howWeWork}
-            </a>
+          <div className="flex flex-col items-start md:items-end gap-2 md:gap-4 relative w-full md:w-auto">
+            <div className="flex flex-wrap flex-col md:flex-row items-center gap-3 z-10 w-full md:w-auto">
+              <a
+                href="#contact"
+                className="inline-flex items-center justify-center gap-2 px-5 py-3 md:px-6 rounded-full text-sm font-medium transition-colors duration-300 w-full md:w-auto"
+                style={{
+                  backgroundColor: rgb(lerp([255, 255, 255], [15, 23, 42], shift)),
+                  color: rgb(lerp([15, 23, 42], [255, 255, 255], shift)),
+                }}
+              >
+                {t.hero.startProject}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              </a>
+              <a
+                href="#approach"
+                className="hidden md:inline-flex items-center justify-center gap-2 px-5 py-3 md:px-6 rounded-full border text-sm font-medium transition-colors duration-300 w-full md:w-auto"
+                style={{
+                  color: rgb(lerp([255, 255, 255], [15, 23, 42], shift)),
+                  borderColor: `rgba(${shift > 0.5 ? "15,23,42" : "255,255,255"},0.3)`,
+                }}
+              >
+                {t.hero.howWeWork}
+              </a>
+            </div>
           </div>
         </div>
       </div>

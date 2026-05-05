@@ -13,9 +13,26 @@ export function Navbar() {
   const { isLoading } = useLocale();
   const t = useT();
   const navItems = [
-    { label: t.nav.work, href: "#work" },
+    { label: t.nav.home, href: "#hero" },
     { label: t.nav.services, href: "#services" },
+    { label: t.nav.work, href: "#work" },
   ];
+
+  const mobileNavItems = [
+    ...navItems,
+    { label: t.nav.contact, href: "#contact" },
+  ];
+
+  const smoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    const id = href.replace("#", "");
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else if (href === "#hero" || href === "#") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
 
   useEffect(() => {
     const t = setTimeout(() => setMounted(true), 50);
@@ -105,6 +122,7 @@ export function Navbar() {
               <a
                 key={item.label}
                 href={item.href}
+                onClick={(e) => smoothScroll(e, item.href)}
                 className={`relative text-sm font-medium px-4 py-2 rounded-full transition-colors duration-300 ${
                   scrolled
                     ? "text-slate-700 hover:text-slate-900 hover:bg-slate-100"
@@ -117,6 +135,7 @@ export function Navbar() {
 
             <a
               href="#contact"
+              onClick={(e) => smoothScroll(e, "#contact")}
               className={`ml-1 inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-medium transition-colors duration-300 ${
                 scrolled
                   ? "bg-slate-900 text-white hover:bg-blue-500"
@@ -144,7 +163,7 @@ export function Navbar() {
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((v) => !v)}
             className={`md:hidden relative inline-flex items-center justify-center w-12 h-12 rounded-full z-[110] transition-colors duration-300 ${
-              scrolled ? "bg-slate-900 text-white" : "bg-white text-slate-900"
+              scrolled ? "bg-transparent text-blue-500" : "bg-transparent text-white"
             }`}
           >
             <span
@@ -175,9 +194,9 @@ export function Navbar() {
       <MobileMenu
         open={menuOpen}
         onClose={() => setMenuOpen(false)}
-        items={navItems}
+        items={mobileNavItems}
         startLabel={t.mobileMenu.startProject}
-        joinLabel={t.mobileMenu.joinUs}
+        smoothScroll={smoothScroll}
       />
     </>
   );
@@ -188,10 +207,10 @@ type MobileMenuProps = {
   onClose: () => void;
   items: { label: string; href: string }[];
   startLabel: string;
-  joinLabel: string;
+  smoothScroll: (e: React.MouseEvent<HTMLAnchorElement>, href: string) => void;
 };
 
-function MobileMenu({ open, onClose, items, startLabel, joinLabel }: MobileMenuProps) {
+function MobileMenu({ open, onClose, items, startLabel, smoothScroll }: MobileMenuProps) {
   return (
     <div
       role="dialog"
@@ -231,26 +250,35 @@ function MobileMenu({ open, onClose, items, startLabel, joinLabel }: MobileMenuP
               draggable={false}
             />
           </span>
-          <span className="w-12 h-12" aria-hidden />
+          <button
+            onClick={onClose}
+            aria-label="Close menu"
+            className="w-12 h-12 flex items-center justify-center rounded-full hover:bg-slate-100 transition-colors"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-slate-900">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
         </div>
 
-        <nav className="flex-1 flex flex-col justify-center px-8 gap-1">
+        <nav className="flex-1 flex flex-col justify-center px-8 gap-2">
           {items.map((item, i) => (
             <a
               key={item.label}
               href={item.href}
-              onClick={onClose}
-              className="group flex items-center justify-between py-3 border-b border-slate-100"
+              onClick={(e) => { smoothScroll(e, item.href); onClose(); }}
+              className="group flex items-center justify-between py-4 border-b border-slate-100"
               style={{
                 opacity: open ? 1 : 0,
                 transform: open ? "translateX(0)" : "translateX(20px)",
                 transition: `opacity 500ms cubic-bezier(0.22,1,0.36,1) ${200 + i * 60}ms, transform 500ms cubic-bezier(0.22,1,0.36,1) ${200 + i * 60}ms`,
               }}
             >
-              <span className="text-slate-900 text-3xl font-semibold tracking-tight">
+              <span className="text-slate-900 text-4xl font-semibold tracking-tight">
                 {item.label}
               </span>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-slate-400 group-hover:text-blue-500 transition-colors" aria-hidden>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-slate-400 group-hover:text-blue-500 transition-colors" aria-hidden>
                 <line x1="7" y1="17" x2="17" y2="7" />
                 <polyline points="7 7 17 7 17 17" />
               </svg>
@@ -267,7 +295,7 @@ function MobileMenu({ open, onClose, items, startLabel, joinLabel }: MobileMenuP
         >
           <a
             href="#contact"
-            onClick={onClose}
+            onClick={(e) => { smoothScroll(e, "#contact"); onClose(); }}
             className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-full bg-slate-900 text-white text-base font-medium hover:bg-blue-500 transition-colors duration-300"
           >
             {startLabel}
@@ -277,14 +305,8 @@ function MobileMenu({ open, onClose, items, startLabel, joinLabel }: MobileMenuP
             </svg>
           </a>
 
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-center">
             <LanguageSwitcher />
-            <a
-              href="#join"
-              className="text-slate-500 hover:text-slate-900 text-xs font-medium tracking-[0.18em] uppercase transition-colors"
-            >
-              {joinLabel}
-            </a>
           </div>
         </div>
       </aside>
