@@ -63,7 +63,7 @@ export function Footer() {
       id="footer"
       className="relative w-full z-[2] overflow-hidden flex-1 flex flex-col justify-end md:justify-start xl:justify-end"
     >
-      <div className="relative mx-auto max-w-[1600px] w-full px-6 md:px-12 py-28 md:py-20 lg:py-24 xl:py-44">
+      <div className="relative mx-auto max-w-[1600px] w-full px-6 md:px-12 pt-32 pb-20 md:py-20 lg:py-24 xl:py-44">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16">
           <div>
             <h3
@@ -100,7 +100,7 @@ export function Footer() {
             </a>
           </div>
 
-          <div className="grid grid-cols-2 gap-8 md:contents">
+          <div className="grid grid-cols-2 gap-8 mt-3 md:mt-0 md:contents">
             <nav aria-label="Footer navigation">
               <h4
                 className="text-xs uppercase tracking-[0.2em]"
@@ -169,7 +169,7 @@ export function Footer() {
           ) : null}
         </div>
 
-        <div className="mt-16 md:mt-24 lg:mt-28">
+        <div className="mt-10 md:mt-24 lg:mt-28">
           <p
             className="text-center uppercase font-extrabold tracking-tight leading-none text-[56px] md:text-[120px] lg:text-[160px]"
             style={{ color: `rgba(${shift > 0.5 ? "255,255,255" : "15,23,42"},0.18)` }}
