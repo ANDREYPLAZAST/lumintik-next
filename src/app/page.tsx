@@ -13,9 +13,8 @@ export default function Home() {
       <Navbar />
       <main className="relative w-full flex flex-col items-center">
         <div
-          className="relative w-full flex justify-center overflow-clip"
+          className="relative w-full flex justify-center overflow-clip h-[500vh] md:h-[600vh]"
           style={{
-            height: "600vh",
             background:
               "linear-gradient(180deg, #000000 0%, #1e3a8a 38%, #ffffff 80%, #ffffff 100%)",
           }}
@@ -26,7 +25,7 @@ export default function Home() {
         </div>
         <div
           id="content-rise"
-          className="relative w-full bg-white z-[2] flex flex-col items-center"
+          className="relative w-full bg-white z-[2] flex flex-col items-center md:-mt-[14vh] lg:-mt-[20vh] xl:mt-0"
         >
           <BuildingFor />
           <ServicesSection />
@@ -37,9 +36,8 @@ export default function Home() {
       </main>
       <div
         id="footer-wrap"
-        className="relative w-full flex justify-center overflow-clip -mt-[100vh]"
+        className="relative w-full flex justify-center overflow-clip -mt-[100vh] md:-mt-[90vh] lg:-mt-[96vh] xl:-mt-[100vh] h-[200vh] md:h-[185vh] lg:h-[195vh] xl:h-[200vh]"
         style={{
-          height: "200vh",
           background:
             "linear-gradient(180deg, #ffffff 0%, #93c5fd 12%, #3b82f6 26%, #1e3a8a 42%, #0f172a 65%, #0a0a0a 100%)",
         }}

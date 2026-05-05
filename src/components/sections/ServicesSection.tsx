@@ -85,6 +85,7 @@ export function ServicesSection() {
                 title={copy.title}
                 description={copy.desc}
                 videoSrc={service.videoSrc}
+                posterSrc={service.posterSrc}
                 span={service.span}
                 mobileObjectPosition={service.key === "uxui" ? "right center" : undefined}
               />

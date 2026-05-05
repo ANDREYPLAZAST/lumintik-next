@@ -10,9 +10,10 @@ export type ProjectCardProps = {
   large?: boolean;
 };
 
-export function ProjectCard({ card, large = false }: ProjectCardProps) {
+export function ProjectCard({ card, large = false }: Readonly<ProjectCardProps>) {
   const t = useT();
   const copy = t.projects.cards[card.key];
+  const isCloudinaryImage = card.image.startsWith("https://res.cloudinary.com/");
 
   return (
     <a href={card.href} className="group block w-full">
@@ -38,6 +39,7 @@ export function ProjectCard({ card, large = false }: ProjectCardProps) {
           }
           priority={large}
           quality={large ? 85 : 80}
+          unoptimized={isCloudinaryImage}
           className={cn(
             card.logoMode
               ? "absolute inset-0 m-auto !w-1/2 max-w-[260px] !h-1/2 object-contain transition-transform duration-700 group-hover:scale-[1.05] !relative"
