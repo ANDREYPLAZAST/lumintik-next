@@ -210,14 +210,14 @@ export function Hero() {
         >
           {/* Spline 3D Scene anchored to the top of the description block so it pushes up on mobile */}
           <div 
-            className="absolute left-1/2 flex items-center justify-center -translate-x-[50%] bottom-[100%] md:left-auto md:-translate-x-0 md:right-[-75px] md:bottom-[calc(100%+285px)] xl:bottom-full w-[340px] h-[430px] md:w-[650px] md:h-[650px] mb-[0px] md:mb-0 xl:mb-[-100px] pointer-events-none z-0"
+            className="absolute left-1/2 flex items-center justify-center -translate-x-[50%] bottom-[100%] md:left-auto md:-translate-x-0 md:right-[-75px] md:bottom-[calc(100%+285px)] xl:bottom-full w-[340px] h-[430px] md:w-[650px] md:h-[650px] mb-[-20px] md:mb-0 xl:mb-[-100px] pointer-events-none z-0"
             style={{
               clipPath: "polygon(0% 0%, 100% 0%, 100% calc(100% - 70px), max(50%, calc(100% - 180px)) calc(100% - 70px), max(50%, calc(100% - 180px)) 100%, min(50%, 180px) 100%, min(50%, 180px) calc(100% - 70px), 0% calc(100% - 70px))"
             }}
           >
             {/* pointer-events-auto restores drag controls. scaleX(-1) reliably mirrors the model. touch-none allows mobile fingers to freely orbit without scrolling the page. onWheelCapture stops zooming. */}
             <div 
-              className="absolute inset-0 w-full h-full pointer-events-auto cursor-grab active:cursor-grabbing touch-none"
+              className="absolute inset-0 w-full h-full pointer-events-none md:pointer-events-auto md:cursor-grab md:active:cursor-grabbing md:touch-none"
               style={{ transform: "scaleX(-1)" }}
               onWheelCapture={(e) => e.stopPropagation()}
             >
