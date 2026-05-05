@@ -9,6 +9,7 @@ export function Hero() {
   const [started, setStarted] = useState(false);
   const [shift, setShift] = useState(0);
   const [accentIndex, setAccentIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   const accents = t.hero.titleAccentRotations ?? [t.hero.titleAccent];
   const accentsLenRef = useRef(accents.length);
@@ -17,6 +18,13 @@ export function Hero() {
   useEffect(() => {
     const t = setTimeout(() => setStarted(true), 80);
     return () => clearTimeout(t);
+  }, []);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check, { passive: true });
+    return () => window.removeEventListener("resize", check);
   }, []);
 
   // Re-trigger word entrance when language changes.
@@ -29,6 +37,8 @@ export function Hero() {
   // Track scroll progress within the hero wrapper to invert text colors.
   useEffect(() => {
     let ticking = false;
+    let lastShift = -1;
+    let lastAccent = -1;
     const update = () => {
       const rise = document.getElementById("content-rise");
       const vh = window.innerHeight || 1;
@@ -37,7 +47,12 @@ export function Hero() {
         const start = vh * 4.5;
         const end = vh * 2.5;
         const raw = (start - top) / (start - end);
-        setShift(Math.max(0, Math.min(1, raw)));
+        const nextShift = Math.max(0, Math.min(1, raw));
+        const minShiftDelta = window.innerWidth < 768 ? 0.035 : 0.015;
+        if (Math.abs(nextShift - lastShift) >= minShiftDelta) {
+          lastShift = nextShift;
+          setShift(nextShift);
+        }
 
         // Rotate accent word across the full hero scroll.
         const heroStart = vh * 5;
@@ -45,13 +60,16 @@ export function Hero() {
         const hp = Math.max(0, Math.min(1, (heroStart - top) / (heroStart - heroEnd)));
         const len = accentsLenRef.current;
         const idx = Math.min(len - 1, Math.floor(hp * len));
-        setAccentIndex(idx);
+        if (idx !== lastAccent) {
+          lastAccent = idx;
+          setAccentIndex(idx);
+        }
       }
       ticking = false;
     };
     const onScroll = () => {
       if (!ticking) {
-        window.requestAnimationFrame(update);
+        globalThis.requestAnimationFrame(update);
         ticking = true;
       }
     };
@@ -93,18 +111,18 @@ export function Hero() {
         aria-hidden
         className="absolute inset-0 pointer-events-none mix-blend-screen"
         style={{
-          opacity: shift,
+          opacity: isMobile ? 0 : shift,
           transition: "opacity 0.4s ease",
           background:
             "conic-gradient(from 200deg at 50% -5%, rgba(255,255,255,0) 0deg, rgba(96,165,250,0.55) 30deg, rgba(255,255,255,0) 60deg, rgba(59,130,246,0.5) 95deg, rgba(255,255,255,0) 130deg, rgba(147,197,253,0.55) 175deg, rgba(255,255,255,0) 215deg, rgba(59,130,246,0.45) 260deg, rgba(255,255,255,0) 300deg, rgba(96,165,250,0.5) 340deg, rgba(255,255,255,0) 360deg)",
-          filter: "blur(28px)",
+          filter: isMobile ? "none" : "blur(28px)",
           maskImage:
             "linear-gradient(180deg, #000 0%, #000 50%, rgba(0,0,0,0.3) 80%, rgba(0,0,0,0) 100%)",
           WebkitMaskImage:
             "linear-gradient(180deg, #000 0%, #000 50%, rgba(0,0,0,0.3) 80%, rgba(0,0,0,0) 100%)",
         }}
       />
-      <div className="relative flex flex-col flex-1 justify-between w-full max-w-[1600px] mx-auto pt-6 md:pt-16 pb-8 md:pb-12">
+      <div className="relative flex flex-col flex-1 justify-between w-full max-w-[1600px] mx-auto pt-6 md:pt-6 xl:pt-16 pb-8 md:pb-12">
         <div className="md:max-w-[80%]">
           <span
             className="block uppercase tracking-[0.2em] text-xs md:text-sm font-medium mb-5 md:mb-6"
@@ -154,17 +172,16 @@ export function Hero() {
                 {accents.map((word, i) => {
                   const isActive = started && i === accentIndex;
                   const isPast = i < accentIndex;
+                  let accentTransform = "translateY(110%)";
+                  if (isActive) accentTransform = "translateY(0)";
+                  else if (isPast) accentTransform = "translateY(-110%)";
                   return (
                     <span
                       key={word + i}
                       className="absolute left-0 top-0 inline-block whitespace-nowrap"
                       style={{
                         opacity: isActive ? 1 : 0,
-                        transform: isActive
-                          ? "translateY(0)"
-                          : isPast
-                            ? "translateY(-110%)"
-                            : "translateY(110%)",
+                        transform: accentTransform,
                         transition:
                           "opacity 0.55s cubic-bezier(0.22,1,0.36,1), transform 0.55s cubic-bezier(0.22,1,0.36,1)",
                       }}
@@ -193,7 +210,7 @@ export function Hero() {
         >
           {/* Spline 3D Scene anchored to the top of the description block so it pushes up on mobile */}
           <div 
-            className="absolute left-1/2 flex items-center justify-center -translate-x-[50%] bottom-[100%] md:left-auto md:-translate-x-0 md:right-[-40px] md:bottom-full w-[300px] h-[380px] md:w-[650px] md:h-[650px] mb-[-40px] md:mb-[-100px] pointer-events-none z-0"
+            className="absolute left-1/2 flex items-center justify-center -translate-x-[50%] bottom-[100%] md:left-auto md:-translate-x-0 md:right-[-75px] md:bottom-[calc(100%+285px)] xl:bottom-full w-[340px] h-[430px] md:w-[650px] md:h-[650px] mb-[0px] md:mb-0 xl:mb-[-100px] pointer-events-none z-0"
             style={{
               clipPath: "polygon(0% 0%, 100% 0%, 100% calc(100% - 70px), max(50%, calc(100% - 180px)) calc(100% - 70px), max(50%, calc(100% - 180px)) 100%, min(50%, 180px) 100%, min(50%, 180px) calc(100% - 70px), 0% calc(100% - 70px))"
             }}
@@ -209,7 +226,7 @@ export function Hero() {
           </div>
 
           <p
-            className="text-sm md:text-xl leading-relaxed md:max-w-[60%] z-10 relative pointer-events-auto"
+            className="text-sm md:text-xl leading-relaxed md:max-w-[60%] z-10 relative pointer-events-auto md:[transform:translateY(-26rem)] xl:[transform:translateY(0)]"
             style={{ color: bodyColor, transition: "color 0.4s ease" }}
           >
             {t.hero.description.lead}{" "}
@@ -234,7 +251,8 @@ export function Hero() {
               style={{ color: accentColor }}
             >
               Claro
-            </a>{" "}
+            </a>
+            {" "}
             {t.hero.description.and}{" "}
             <a
               href="#work"
@@ -243,10 +261,10 @@ export function Hero() {
             >
               EZDocuAI
             </a>
-            .
+            {"."}
           </p>
 
-          <div className="flex flex-col items-start md:items-end gap-2 md:gap-4 relative w-full md:w-auto">
+          <div className="flex flex-col items-start md:items-end gap-2 md:gap-4 relative w-full md:w-auto md:[transform:translateY(-26rem)] xl:[transform:translateY(0)]">
             <div className="flex flex-wrap flex-col md:flex-row items-center gap-3 z-10 w-full md:w-auto">
               <a
                 href="#contact"

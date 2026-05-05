@@ -37,7 +37,7 @@ export function Footer() {
     };
     const onScroll = () => {
       if (!ticking) {
-        window.requestAnimationFrame(update);
+        globalThis.requestAnimationFrame(update);
         ticking = true;
       }
     };
@@ -61,9 +61,9 @@ export function Footer() {
   return (
     <footer
       id="footer"
-      className="relative w-full z-[2] overflow-hidden flex-1 flex flex-col justify-end"
+      className="relative w-full z-[2] overflow-hidden flex-1 flex flex-col justify-end md:justify-start xl:justify-end"
     >
-      <div className="relative mx-auto max-w-[1600px] w-full px-6 md:px-12 py-28 md:py-44">
+      <div className="relative mx-auto max-w-[1600px] w-full px-6 md:px-12 py-28 md:py-20 lg:py-24 xl:py-44">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16">
           <div>
             <h3
@@ -100,55 +100,57 @@ export function Footer() {
             </a>
           </div>
 
-          <nav aria-label="Footer navigation">
-            <h4
-              className="text-xs uppercase tracking-[0.2em]"
-              style={{ color: labelColor, transition: "color 0.4s ease" }}
-            >
-              {t.footer.sitemap}
-            </h4>
-            <ul className="mt-6 flex flex-col gap-3">
-              {footerLinks.map((link) => (
-                <li key={link.label}>
-                  <a
-                    href={link.href}
-                    className="text-base transition-colors hover:opacity-70"
-                    style={{ color: linkColor }}
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          <div className="grid grid-cols-2 gap-8 md:contents">
+            <nav aria-label="Footer navigation">
+              <h4
+                className="text-xs uppercase tracking-[0.2em]"
+                style={{ color: labelColor, transition: "color 0.4s ease" }}
+              >
+                {t.footer.sitemap}
+              </h4>
+              <ul className="mt-6 flex flex-col gap-3">
+                {footerLinks.map((link) => (
+                  <li key={link.label}>
+                    <a
+                      href={link.href}
+                      className="text-base transition-colors hover:opacity-70"
+                      style={{ color: linkColor }}
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
 
-          <nav aria-label="Social links">
-            <h4
-              className="text-xs uppercase tracking-[0.2em]"
-              style={{ color: labelColor, transition: "color 0.4s ease" }}
-            >
-              {t.footer.elsewhere}
-            </h4>
-            <ul className="mt-6 flex flex-col gap-3">
-              {SOCIAL_LINKS.map((link) => (
-                <li key={link.label}>
-                  <a
-                    href={link.href}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className="text-base transition-colors hover:opacity-70"
-                    style={{ color: linkColor }}
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
+            <nav aria-label="Social links">
+              <h4
+                className="text-xs uppercase tracking-[0.2em]"
+                style={{ color: labelColor, transition: "color 0.4s ease" }}
+              >
+                {t.footer.elsewhere}
+              </h4>
+              <ul className="mt-6 flex flex-col gap-3">
+                {SOCIAL_LINKS.map((link) => (
+                  <li key={link.label}>
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="text-base transition-colors hover:opacity-70"
+                      style={{ color: linkColor }}
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
         </div>
 
         <div
-          className="mt-16 pt-8 border-t flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
+          className="mt-24 md:mt-32 pt-8 border-t flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
           style={{ borderColor: lineColor, transition: "border-color 0.4s ease" }}
         >
           <p
@@ -157,11 +159,22 @@ export function Footer() {
           >
             {t.footer.line}
           </p>
+          {t.footer.rights ? (
+            <p
+              className="text-xs"
+              style={{ color: labelColor, transition: "color 0.4s ease" }}
+            >
+              {t.footer.rights}
+            </p>
+          ) : null}
+        </div>
+
+        <div className="mt-16 md:mt-24 lg:mt-28">
           <p
-            className="text-xs"
-            style={{ color: labelColor, transition: "color 0.4s ease" }}
+            className="text-center uppercase font-extrabold tracking-tight leading-none text-[56px] md:text-[120px] lg:text-[160px]"
+            style={{ color: `rgba(${shift > 0.5 ? "255,255,255" : "15,23,42"},0.18)` }}
           >
-            {t.footer.rights}
+            LUMINTIK
           </p>
         </div>
       </div>

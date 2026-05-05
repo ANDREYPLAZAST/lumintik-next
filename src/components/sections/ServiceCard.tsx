@@ -7,6 +7,7 @@ export type ServiceCardProps = {
   title: string;
   description?: string;
   videoSrc?: string;
+  posterSrc?: string;
   /** Tailwind classes that control the card's column span and borders. */
   span: string;
   /** CSS object-position for the video on mobile (e.g. "right center"). Defaults to "center". */
@@ -17,15 +18,22 @@ export function ServiceCard({
   title,
   description,
   videoSrc,
+  posterSrc,
   span,
   mobileObjectPosition,
 }: Readonly<ServiceCardProps>) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [hovered, setHovered] = useState(false);
 
-  const defaultTime = videoSrc && videoSrc.includes("#t=") 
-    ? parseFloat(videoSrc.split("#t=")[1]) || 0 
+  const defaultTime = videoSrc?.includes("#t=")
+    ? Number.parseFloat(videoSrc.split("#t=")[1] ?? "0") || 0
     : 0;
+  const computedPoster =
+    posterSrc ??
+    videoSrc
+      ?.split("#")[0]
+      .split("?")[0]
+      .replace(/\.(mp4|webm|ogg|mov)$/i, ".jpg");
 
   const handleMouseEnter = () => {
     setHovered(true);
@@ -61,7 +69,7 @@ export function ServiceCard({
           <video
             ref={videoRef}
             src={videoSrc}
-            poster={videoSrc.replace(/\.(mp4|webm|ogg|mov)$/, ".jpg")}
+            poster={computedPoster}
             muted
             loop
             playsInline

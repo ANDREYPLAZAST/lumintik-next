@@ -239,7 +239,7 @@ const en: Messages = {
     sitemap: "Sitemap",
     elsewhere: "Elsewhere",
     line: "Lumintik SAS · Software studio · 2026",
-    rights: "Just a mark of my existence in the vastness of the web.",
+    rights: "",
   },
   mobileMenu: {
     startProject: "Start a project",
@@ -404,7 +404,7 @@ const es: Messages = {
     sitemap: "Mapa del sitio",
     elsewhere: "En otros lugares",
     line: "Lumintik SAS · Estudio de software · 2026",
-    rights: "Solo una marca de mi existencia en la inmensidad de la web.",
+    rights: "",
   },
   mobileMenu: {
     startProject: "Iniciar un proyecto",
