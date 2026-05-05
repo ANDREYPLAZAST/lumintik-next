@@ -31,8 +31,13 @@ export function ProjectCard({ card, large = false }: ProjectCardProps) {
           src={card.image}
           alt={copy.title}
           fill
-          sizes={large ? "100vw" : "(min-width: 768px) 50vw, 100vw"}
+          sizes={
+            large
+              ? "(min-width: 1536px) 1536px, (min-width: 768px) min(92vw, 1440px), 100vw"
+              : "(min-width: 768px) min(46vw, 720px), 100vw"
+          }
           priority={large}
+          quality={large ? 85 : 80}
           className={cn(
             card.logoMode
               ? "absolute inset-0 m-auto !w-1/2 max-w-[260px] !h-1/2 object-contain transition-transform duration-700 group-hover:scale-[1.05] !relative"

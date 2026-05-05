@@ -28,7 +28,7 @@ export function BuildingFor() {
   return (
     <section
       id="clients"
-      className="relative bg-white w-full px-5 md:px-12 pt-2 pb-8 md:pt-4 md:pb-12 z-[2]"
+      className="relative w-full px-5 md:px-12 pt-2 pb-8 md:pt-4 md:pb-12 z-[2]"
     >
       <div className="mx-auto max-w-[1600px] w-full">
         <div className="text-center mb-8 md:mb-10">
@@ -40,18 +40,16 @@ export function BuildingFor() {
 
         <div
           className="relative overflow-hidden text-slate-500"
-          style={{ height: 96 }}
+          style={{ height: 140 }}
         >
           <LogoLoop
             logos={BRAND_LOGOS}
             speed={40}
             direction="left"
-            logoHeight={56}
-            gap={120}
+            logoHeight={96}
+            gap={160}
             hoverSpeed={15}
             scaleOnHover
-            fadeOut
-            fadeOutColor="#ffffff"
             ariaLabel={t.buildingFor.aria}
           />
         </div>

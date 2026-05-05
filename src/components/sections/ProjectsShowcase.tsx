@@ -2,6 +2,7 @@
 
 import { MarqueeRow } from "@/components/ui/MarqueeRow";
 import { ProjectCard } from "@/components/sections/ProjectCard";
+import { WhyWorkStats } from "@/components/sections/WhyWorkStats";
 import { featuredProject, projects } from "@/data/projects";
 import { useT } from "@/components/providers/LocaleProvider";
 
@@ -11,7 +12,7 @@ export function ProjectsShowcase() {
   return (
     <section
       id="work"
-      className="relative bg-white w-full px-5 py-14 md:px-12 md:py-24 z-[2]"
+      className="relative w-full px-5 py-14 md:px-12 md:py-24 z-[2]"
     >
       <style>{`
         @keyframes lumintik-marquee {
@@ -41,6 +42,8 @@ export function ProjectsShowcase() {
               <ProjectCard key={card.key} card={card} />
             ))}
           </div>
+
+          <WhyWorkStats />
         </div>
       </div>
     </section>
