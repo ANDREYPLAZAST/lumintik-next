@@ -231,7 +231,7 @@ function MobileMenu({ open, onClose, items, startLabel, smoothScroll }: MobileMe
       />
 
       <aside
-        className="absolute top-0 right-0 h-full w-full max-w-[420px] bg-white flex flex-col"
+        className="absolute top-0 right-0 h-full w-full bg-white flex flex-col"
         style={{
           transform: open ? "translateX(0)" : "translateX(100%)",
           transition: "transform 500ms cubic-bezier(0.22,1,0.36,1)",
