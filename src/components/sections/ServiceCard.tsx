@@ -61,6 +61,7 @@ export function ServiceCard({
           <video
             ref={videoRef}
             src={videoSrc}
+            poster={videoSrc.replace(/\.(mp4|webm|ogg|mov)$/, ".jpg")}
             muted
             loop
             playsInline
