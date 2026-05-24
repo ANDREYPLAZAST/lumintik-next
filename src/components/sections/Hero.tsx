@@ -39,9 +39,16 @@ export function Hero() {
     let ticking = false;
     let lastShift = -1;
     let lastAccent = -1;
+    // Cache vh so the mobile URL bar toggle (which mutates innerHeight on
+    // every scroll-up) doesn't make the color-shift threshold oscillate.
+    let cachedVh = window.innerHeight || 1;
+    const refreshVh = () => {
+      cachedVh = window.innerHeight || 1;
+      update();
+    };
     const update = () => {
       const rise = document.getElementById("content-rise");
-      const vh = window.innerHeight || 1;
+      const vh = cachedVh;
       if (rise) {
         const top = rise.getBoundingClientRect().top;
         const start = vh * 3.1;
@@ -75,7 +82,11 @@ export function Hero() {
     };
     update();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("orientationchange", refreshVh);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("orientationchange", refreshVh);
+    };
   }, []);
 
   const lerp = (a: number[], b: number[], t: number) =>

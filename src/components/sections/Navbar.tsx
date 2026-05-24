@@ -36,9 +36,15 @@ export function Navbar() {
 
   useEffect(() => {
     const t = setTimeout(() => setMounted(true), 50);
+    // Cache vh to avoid mobile URL-bar toggle from oscillating the threshold.
+    let cachedVh = window.innerHeight || 1;
+    const refreshVh = () => {
+      cachedVh = window.innerHeight || 1;
+      onScroll();
+    };
     const onScroll = () => {
       const riseEl = document.getElementById("content-rise");
-      const vh = window.innerHeight || 1;
+      const vh = cachedVh;
       if (riseEl) {
         const top = riseEl.getBoundingClientRect().top;
         // Text switches to dark when hero reaches its final light state.
@@ -51,10 +57,12 @@ export function Navbar() {
       }
     };
     window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("orientationchange", refreshVh);
     onScroll();
     return () => {
       clearTimeout(t);
       window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("orientationchange", refreshVh);
     };
   }, []);
 
