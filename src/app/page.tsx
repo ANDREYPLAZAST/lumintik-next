@@ -13,7 +13,7 @@ export default function Home() {
       <Navbar />
       <main className="relative w-full flex flex-col items-center">
         <div
-          className="relative w-full flex justify-center overflow-clip h-[500vh] md:h-[600vh]"
+          className="relative w-full flex justify-center overflow-clip h-[338vh] md:h-[405vh]"
           style={{
             background:
               "linear-gradient(180deg, #000000 0%, #1e3a8a 38%, #ffffff 80%, #ffffff 100%)",

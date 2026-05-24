@@ -19,7 +19,7 @@ export function ProjectCard({ card, large = false }: Readonly<ProjectCardProps>)
     <a href={card.href} className="group block w-full">
       <div
         className={cn(
-          "relative w-full overflow-hidden rounded-3xl bg-slate-100 border border-slate-200",
+          "relative w-full overflow-hidden rounded-md bg-slate-100 border border-slate-200",
           large ? "h-[440px] md:h-[624px]" : "h-[320px] md:h-[440px]",
         )}
         style={
