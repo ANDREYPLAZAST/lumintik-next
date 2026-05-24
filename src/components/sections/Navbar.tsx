@@ -42,7 +42,7 @@ export function Navbar() {
       if (riseEl) {
         const top = riseEl.getBoundingClientRect().top;
         // Text switches to dark when hero reaches its final light state.
-        setDarkText(top < vh * 3.5);
+        setDarkText(top < vh * 2.3);
         // Background only appears once we leave the hero entirely.
         setBgVisible(top <= 0);
       } else {

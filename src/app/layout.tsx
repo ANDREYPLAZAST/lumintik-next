@@ -135,6 +135,15 @@ export default function RootLayout({
   return (
     <html lang="en" className={manrope.variable}>
       <head>
+        <link rel="preconnect" href="https://prod.spline.design" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://prod.spline.design" />
+        <link rel="preconnect" href="https://unpkg.com" crossOrigin="" />
+        <link
+          rel="preload"
+          as="fetch"
+          href="https://prod.spline.design/Hic65A1wo9S7zyNu/scene.splinecode?v=7"
+          crossOrigin="anonymous"
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANIZATION_JSONLD) }}

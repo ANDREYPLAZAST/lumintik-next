@@ -44,8 +44,8 @@ export function Hero() {
       const vh = window.innerHeight || 1;
       if (rise) {
         const top = rise.getBoundingClientRect().top;
-        const start = vh * 4.5;
-        const end = vh * 2.5;
+        const start = vh * 3.1;
+        const end = vh * 1.7;
         const raw = (start - top) / (start - end);
         const nextShift = Math.max(0, Math.min(1, raw));
         const minShiftDelta = window.innerWidth < 768 ? 0.035 : 0.015;
@@ -55,7 +55,7 @@ export function Hero() {
         }
 
         // Rotate accent word across the full hero scroll.
-        const heroStart = vh * 5;
+        const heroStart = vh * 3.4;
         const heroEnd = 0;
         const hp = Math.max(0, Math.min(1, (heroStart - top) / (heroStart - heroEnd)));
         const len = accentsLenRef.current;
