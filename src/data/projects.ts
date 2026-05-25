@@ -30,7 +30,7 @@ export const featuredProject: ProjectMeta = {
 
 export const projects: ProjectMeta[] = [
   { key: "ezdocu", image: "/projects/ezdocu/home-desktop.png", href: "#work", badge: true },
-  { key: "minnesota", image: "/projects/minnesota/hero-desktop.png", href: "#work", badge: true },
+  { key: "minnesota", image: "/projects/minnesota/hero-desktop.png", href: "https://www.minnesotaent.net/", badge: true },
   { key: "claro", image: "/projects/claro/home.png", href: "https://www.claro.com.co/", badge: true },
   { key: "coca", image: "/projects/coca/home.png", href: "https://www.coca-cola.com/", badge: true },
   { key: "atto", image: "/projects/atto/home.png", href: "#work" },
