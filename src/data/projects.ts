@@ -35,7 +35,7 @@ export const projects: ProjectMeta[] = [
   { key: "coca", image: "/projects/coca/home.png", href: "https://www.coca-cola.com/", badge: true },
   { key: "atto", image: "/projects/atto/home.png", href: "#work" },
   { key: "ezmig", image: "/projects/ezmig/home.png", href: "#work" },
-  { key: "lenspr", image: "/projects/lenspr/home.png", href: "#work" },
+  { key: "lenspr", image: "/projects/lenspr/home.png", href: "https://www.lenspr.com/es" },
   { key: "piebald", image: "/projects/piebald/loaded.png", href: "https://www.piebaldcapital.com/", badge: true },
   {
     key: "accesify",
