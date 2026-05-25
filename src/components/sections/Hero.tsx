@@ -221,7 +221,7 @@ export function Hero() {
         >
           {/* Spline 3D Scene anchored to the top of the description block so it pushes up on mobile */}
           <div 
-            className="absolute left-1/2 flex items-center justify-center -translate-x-[50%] bottom-[100%] md:left-auto md:-translate-x-0 md:right-[-85px] xl:right-[-80px] md:bottom-[calc(100%+285px)] xl:bottom-full w-[390px] h-[480px] md:w-[700px] md:h-[700px] xl:w-[730px] xl:h-[730px] mb-[-20px] md:mb-0 xl:mb-[-100px] pointer-events-none z-0"
+            className="absolute left-1/2 flex items-center justify-center -translate-x-[50%] bottom-[100%] md:left-auto md:-translate-x-0 md:right-[-85px] xl:right-[-80px] md:bottom-[calc(100%+285px)] xl:bottom-full w-[390px] h-[480px] md:w-[700px] md:h-[700px] xl:w-[730px] xl:h-[730px] mb-[-75px] md:mb-0 xl:mb-[-100px] pointer-events-none z-0"
             style={{
               clipPath: "polygon(0% 0%, 100% 0%, 100% calc(100% - 70px), max(50%, calc(100% - 180px)) calc(100% - 70px), max(50%, calc(100% - 180px)) 100%, min(50%, 180px) 100%, min(50%, 180px) calc(100% - 70px), 0% calc(100% - 70px))"
             }}
