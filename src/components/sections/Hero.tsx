@@ -134,7 +134,7 @@ export function Hero() {
         }}
       />
       <div className="relative flex flex-col flex-1 justify-between w-full max-w-[1600px] mx-auto pt-6 md:pt-6 xl:pt-16 pb-8 md:pb-12">
-        <div className="md:max-w-[62%] xl:max-w-[60%] text-center md:text-left">
+        <div className="xl:max-w-[60%] text-center xl:text-left">
           <span
             className="block uppercase tracking-[0.2em] text-xs md:text-sm font-medium mb-5 md:mb-6"
             style={{
@@ -211,7 +211,7 @@ export function Hero() {
           #logo { display: none !important; }
         `}} />
         <div
-          className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between md:gap-8 mt-[300px] md:mt-0 relative"
+          className="flex flex-col gap-6 xl:flex-row xl:items-end xl:justify-between xl:gap-8 mt-[300px] xl:mt-0 relative"
           style={{
             opacity: started ? 1 : 0,
             transform: started ? "translateY(0)" : "translateY(30px)",
@@ -221,14 +221,14 @@ export function Hero() {
         >
           {/* Spline 3D Scene anchored to the top of the description block so it pushes up on mobile */}
           <div 
-            className="absolute left-1/2 flex items-center justify-center -translate-x-[50%] bottom-[100%] md:left-auto md:-translate-x-0 md:right-[-85px] xl:right-[-80px] md:bottom-[calc(100%+285px)] xl:bottom-full w-[390px] h-[480px] md:w-[700px] md:h-[700px] xl:w-[730px] xl:h-[730px] mb-[-75px] md:mb-0 xl:mb-[-100px] pointer-events-none z-0"
+            className="absolute left-1/2 flex items-center justify-center -translate-x-[50%] bottom-[100%] xl:left-auto xl:-translate-x-0 xl:right-[-80px] xl:bottom-full w-[390px] h-[480px] md:w-[460px] md:h-[560px] xl:w-[730px] xl:h-[730px] mb-[-75px] xl:mb-[-100px] pointer-events-none z-0"
             style={{
               clipPath: "polygon(0% 0%, 100% 0%, 100% calc(100% - 70px), max(50%, calc(100% - 180px)) calc(100% - 70px), max(50%, calc(100% - 180px)) 100%, min(50%, 180px) 100%, min(50%, 180px) calc(100% - 70px), 0% calc(100% - 70px))"
             }}
           >
             {/* pointer-events-auto restores drag controls. scaleX(-1) reliably mirrors the model. touch-none allows mobile fingers to freely orbit without scrolling the page. onWheelCapture stops zooming. */}
             <div 
-              className="absolute inset-0 w-full h-full pointer-events-none md:pointer-events-auto md:cursor-grab md:active:cursor-grabbing md:touch-none"
+              className="absolute inset-0 w-full h-full pointer-events-none xl:pointer-events-auto xl:cursor-grab xl:active:cursor-grabbing xl:touch-none"
               style={{ transform: "scaleX(-1)" }}
               onWheelCapture={(e) => e.stopPropagation()}
             >
@@ -237,7 +237,7 @@ export function Hero() {
           </div>
 
           <p
-            className="text-sm md:text-xl leading-relaxed md:max-w-[60%] z-10 relative pointer-events-auto md:[transform:translateY(-26rem)] xl:[transform:translateY(0)]"
+            className="text-sm md:text-xl leading-relaxed xl:max-w-[60%] z-10 relative pointer-events-auto"
             style={{ color: bodyColor, transition: "color 0.4s ease" }}
           >
             {t.hero.description.lead}{" "}
@@ -275,11 +275,11 @@ export function Hero() {
             {"."}
           </p>
 
-          <div className="flex flex-col items-start md:items-end gap-2 md:gap-4 relative w-full md:w-auto md:[transform:translateY(-26rem)] xl:[transform:translateY(0)]">
-            <div className="flex flex-wrap flex-col md:flex-row items-center gap-3 z-10 w-full md:w-auto">
+          <div className="flex flex-col items-start xl:items-end gap-2 xl:gap-4 relative w-full xl:w-auto">
+            <div className="flex flex-wrap flex-col xl:flex-row items-center gap-3 z-10 w-full xl:w-auto">
               <a
                 href="#contact"
-                className="inline-flex items-center justify-center gap-2 px-5 py-3 md:px-6 rounded-full text-sm font-medium transition-colors duration-300 w-full md:w-auto"
+                className="inline-flex items-center justify-center gap-2 px-5 py-3 md:px-6 rounded-full text-sm font-medium transition-colors duration-300 w-full xl:w-auto"
                 style={{
                   backgroundColor: rgb(lerp([255, 255, 255], [15, 23, 42], shift)),
                   color: rgb(lerp([15, 23, 42], [255, 255, 255], shift)),
@@ -293,7 +293,7 @@ export function Hero() {
               </a>
               <a
                 href="#approach"
-                className="hidden md:inline-flex items-center justify-center gap-2 px-5 py-3 md:px-6 rounded-full border text-sm font-medium transition-colors duration-300 w-full md:w-auto"
+                className="hidden xl:inline-flex items-center justify-center gap-2 px-5 py-3 md:px-6 rounded-full border text-sm font-medium transition-colors duration-300 w-full xl:w-auto"
                 style={{
                   color: rgb(lerp([255, 255, 255], [15, 23, 42], shift)),
                   borderColor: `rgba(${shift > 0.5 ? "15,23,42" : "255,255,255"},0.3)`,
