@@ -63,7 +63,7 @@ export function Footer() {
       id="footer"
       className="relative w-full z-[2] overflow-hidden flex-1 flex flex-col justify-end md:justify-start xl:justify-end"
     >
-      <div className="relative mx-auto max-w-[1600px] w-full px-6 md:px-12 pt-32 pb-20 md:py-20 lg:py-24 xl:py-44">
+      <div className="relative mx-auto max-w-[1600px] w-full px-6 md:px-12 pt-32 pb-20 md:py-20 lg:py-24 xl:pt-44 xl:pb-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16">
           <div>
             <h3

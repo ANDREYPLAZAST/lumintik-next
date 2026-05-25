@@ -134,7 +134,7 @@ export function Hero() {
         }}
       />
       <div className="relative flex flex-col flex-1 justify-between w-full max-w-[1600px] mx-auto pt-6 md:pt-6 xl:pt-16 pb-8 md:pb-12">
-        <div className="md:max-w-[80%]">
+        <div className="md:max-w-[62%] xl:max-w-[60%]">
           <span
             className="block uppercase tracking-[0.2em] text-xs md:text-sm font-medium mb-5 md:mb-6"
             style={{
@@ -147,7 +147,7 @@ export function Hero() {
           </span>
 
           <h1
-            className="text-[36px] leading-[1.08] md:text-7xl md:leading-[1.1] font-semibold tracking-tight"
+            className="text-[40px] leading-[1.05] md:text-7xl md:leading-[1.05] xl:text-[5rem] xl:leading-[1.04] font-semibold tracking-tight text-balance"
             style={{ color: titleColor, transition: "color 0.4s ease" }}
           >
             {t.hero.titleParts.map((text, i) => {
@@ -221,7 +221,7 @@ export function Hero() {
         >
           {/* Spline 3D Scene anchored to the top of the description block so it pushes up on mobile */}
           <div 
-            className="absolute left-1/2 flex items-center justify-center -translate-x-[50%] bottom-[100%] md:left-auto md:-translate-x-0 md:right-[-75px] md:bottom-[calc(100%+285px)] xl:bottom-full w-[340px] h-[430px] md:w-[650px] md:h-[650px] mb-[-20px] md:mb-0 xl:mb-[-100px] pointer-events-none z-0"
+            className="absolute left-1/2 flex items-center justify-center -translate-x-[50%] bottom-[100%] md:left-auto md:-translate-x-0 md:right-[-85px] xl:right-[-80px] md:bottom-[calc(100%+285px)] xl:bottom-full w-[340px] h-[430px] md:w-[700px] md:h-[700px] xl:w-[730px] xl:h-[730px] mb-[-20px] md:mb-0 xl:mb-[-100px] pointer-events-none z-0"
             style={{
               clipPath: "polygon(0% 0%, 100% 0%, 100% calc(100% - 70px), max(50%, calc(100% - 180px)) calc(100% - 70px), max(50%, calc(100% - 180px)) 100%, min(50%, 180px) 100%, min(50%, 180px) calc(100% - 70px), 0% calc(100% - 70px))"
             }}
