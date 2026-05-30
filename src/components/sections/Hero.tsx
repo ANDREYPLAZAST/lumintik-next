@@ -173,7 +173,7 @@ export function Hero() {
             })}
             <span style={{ color: accentColor, transition: "color 0.4s ease" }}>
               <span
-                className="relative inline-block overflow-hidden align-bottom"
+                className="relative block xl:inline-block overflow-hidden align-bottom"
                 style={{
                   verticalAlign: "bottom",
                   minWidth: `${Math.max(...accents.map((w) => w.length))}ch`,
@@ -189,7 +189,7 @@ export function Hero() {
                   return (
                     <span
                       key={word + i}
-                      className="absolute inset-x-0 top-0 block whitespace-nowrap text-center md:text-left"
+                      className="absolute inset-x-0 top-0 block whitespace-nowrap text-center xl:text-left"
                       style={{
                         opacity: isActive ? 1 : 0,
                         transform: accentTransform,
