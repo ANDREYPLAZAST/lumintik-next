@@ -133,7 +133,7 @@ export function Hero() {
             "linear-gradient(180deg, #000 0%, #000 50%, rgba(0,0,0,0.3) 80%, rgba(0,0,0,0) 100%)",
         }}
       />
-      <div className="relative flex flex-col flex-1 justify-between w-full max-w-[1600px] mx-auto pt-6 md:pt-6 xl:pt-16 pb-8 md:pb-12">
+      <div className="relative flex flex-col flex-1 justify-between w-full max-w-[1880px] mx-auto pt-6 md:pt-6 xl:pt-16 pb-8 md:pb-12">
         <div className="xl:max-w-[60%] text-center xl:text-left">
           <span
             className="block uppercase tracking-[0.2em] text-xs md:text-sm font-medium mb-5 md:mb-6"
@@ -147,7 +147,7 @@ export function Hero() {
           </span>
 
           <h1
-            className="text-[40px] leading-[1.05] md:text-7xl md:leading-[1.05] xl:text-[5rem] xl:leading-[1.04] font-semibold tracking-tight text-balance"
+            className="text-[40px] leading-[1.05] md:text-7xl md:leading-[1.05] xl:text-[clamp(5rem,5.3vw,6.75rem)] xl:leading-[1.04] font-semibold tracking-tight text-balance"
             style={{ color: titleColor, transition: "color 0.4s ease" }}
           >
             {t.hero.titleParts.map((text, i) => {
@@ -221,7 +221,7 @@ export function Hero() {
         >
           {/* Spline 3D Scene anchored to the top of the description block so it pushes up on mobile */}
           <div 
-            className="absolute left-1/2 flex items-center justify-center -translate-x-[50%] bottom-[100%] xl:left-auto xl:-translate-x-0 xl:right-[-80px] xl:bottom-full w-[390px] h-[480px] md:w-[460px] md:h-[560px] xl:w-[730px] xl:h-[730px] mb-[-75px] xl:mb-[-100px] pointer-events-none z-0"
+            className="absolute left-1/2 flex items-center justify-center -translate-x-[50%] bottom-[100%] xl:left-auto xl:-translate-x-0 xl:right-[-80px] xl:bottom-full w-[390px] h-[480px] md:w-[460px] md:h-[560px] xl:w-[clamp(730px,48vw,940px)] xl:h-[clamp(730px,48vw,940px)] mb-[-75px] xl:mb-[-100px] pointer-events-none z-0"
             style={{
               clipPath: "polygon(0% 0%, 100% 0%, 100% calc(100% - 70px), max(50%, calc(100% - 180px)) calc(100% - 70px), max(50%, calc(100% - 180px)) 100%, min(50%, 180px) 100%, min(50%, 180px) calc(100% - 70px), 0% calc(100% - 70px))"
             }}
@@ -237,7 +237,7 @@ export function Hero() {
           </div>
 
           <p
-            className="text-sm md:text-xl leading-relaxed xl:max-w-[60%] z-10 relative pointer-events-auto"
+            className="text-sm md:text-xl xl:text-[clamp(1.25rem,1.2vw,1.55rem)] leading-relaxed xl:max-w-[60%] z-10 relative pointer-events-auto"
             style={{ color: bodyColor, transition: "color 0.4s ease" }}
           >
             {t.hero.description.lead}{" "}
