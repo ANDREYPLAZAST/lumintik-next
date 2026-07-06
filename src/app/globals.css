@@ -25,6 +25,16 @@ html {
   html {
     scroll-behavior: auto;
   }
+
+  /* Honor the user's reduced-motion preference: stop the infinite marquees,
+     the splash "breathe" loop, count-ups and long transitions (WCAG 2.2.2). */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }
 
 html::-webkit-scrollbar,

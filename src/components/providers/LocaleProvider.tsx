@@ -6,6 +6,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import {
@@ -28,6 +29,8 @@ const LocaleContext = createContext<LocaleContextValue | null>(null);
 export function LocaleProvider({ children }: { children: React.ReactNode }) {
   const [locale, setLocaleState] = useState<Locale>("EN");
   const [isLoading, setIsLoading] = useState(true);
+  const localeRef = useRef(locale);
+  localeRef.current = locale;
 
   useEffect(() => {
     const stored = readStoredLocale();
@@ -38,14 +41,20 @@ export function LocaleProvider({ children }: { children: React.ReactNode }) {
     return () => clearTimeout(t);
   }, []);
 
+  // Keep the document language in sync so screen readers and search engines
+  // see the right language when the user (or their browser) picks Spanish.
+  useEffect(() => {
+    document.documentElement.lang = locale.toLowerCase();
+  }, [locale]);
+
   const setLocale = useCallback((next: Locale) => {
-    setLocaleState((prev) => {
-      if (prev === next) return prev;
-      writeStoredLocale(next);
-      setIsLoading(true);
-      window.setTimeout(() => setIsLoading(false), 1100);
-      return next;
-    });
+    // Side effects live in the event handler (not the state updater) so they
+    // run exactly once per switch, including under React StrictMode.
+    if (localeRef.current === next) return;
+    setLocaleState(next);
+    writeStoredLocale(next);
+    setIsLoading(true);
+    window.setTimeout(() => setIsLoading(false), 1100);
   }, []);
 
   const value = useMemo<LocaleContextValue>(

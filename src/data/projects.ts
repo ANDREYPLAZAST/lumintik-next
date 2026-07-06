@@ -16,8 +16,6 @@ export type ProjectMeta = {
   image: string;
   href: string;
   badge?: boolean;
-  logoMode?: boolean;
-  background?: string;
 };
 
 export const featuredProject: ProjectMeta = {

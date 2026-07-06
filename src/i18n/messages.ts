@@ -94,6 +94,12 @@ export type Messages = {
     attachment: string;
     terms: string;
     submit: string;
+    sending: string;
+    success: string;
+    error: string;
+    errorRequired: string;
+    errorEmail: string;
+    errorFile: string;
   };
 };
 
@@ -228,8 +234,8 @@ const en: Messages = {
     },
     stats: [
       { value: 100, suffix: "%", label: "Work completed in house" },
-      { value: 10, suffix: "+", label: "Years crafting digital products" },
-      { value: 150, suffix: "+", label: "Happy clients across 3 continents" },
+      { value: 2, suffix: "+", label: "Years crafting digital products" },
+      { value: 15, suffix: "+", label: "Happy clients across 3 continents" },
       { value: 12, suffix: "+", label: "Industries shipped — fintech, AI, telecom, e-commerce" },
     ],
   },
@@ -259,6 +265,12 @@ const en: Messages = {
     attachment: "Attach file (PDF, Image, etc.)",
     terms: "By submitting you agree to our privacy policy and terms and conditions",
     submit: "Send",
+    sending: "Sending…",
+    success: "Thanks! Your message is on its way — we'll be in touch shortly.",
+    error: "Something went wrong sending your message. Please try again or email us directly.",
+    errorRequired: "Please complete the required fields.",
+    errorEmail: "Please enter a valid email address.",
+    errorFile: "The attachment is too large (max 8 MB).",
   },
 };
 
@@ -393,7 +405,7 @@ const es: Messages = {
     },
     stats: [
       { value: 100, suffix: "%", label: "Trabajo realizado in-house" },
-      { value: 2, suffix: "+", label: "Año creando productos digitales" },
+      { value: 2, suffix: "+", label: "Años creando productos digitales" },
       { value: 15, suffix: "+", label: "Clientes felices en 3 continentes" },
       { value: 12, suffix: "+", label: "Industrias atendidas — fintech, IA, telco, e-commerce" },
     ],
@@ -424,6 +436,12 @@ const es: Messages = {
     attachment: "Adjuntar archivo (PDF, Imagen, etc.)",
     terms: "Al enviar aceptas la política de tratamiento de datos personales y los términos y condiciones",
     submit: "Enviar",
+    sending: "Enviando…",
+    success: "¡Gracias! Tu mensaje va en camino — te contactaremos muy pronto.",
+    error: "Hubo un problema al enviar tu mensaje. Inténtalo de nuevo o escríbenos directamente.",
+    errorRequired: "Por favor completa los campos obligatorios.",
+    errorEmail: "Por favor ingresa un correo electrónico válido.",
+    errorFile: "El archivo adjunto es demasiado grande (máx. 8 MB).",
   },
 };
 

@@ -250,6 +250,8 @@ export function Hero() {
             . {t.hero.description.buildingWith}{" "}
             <a
               href="https://www.samsung.com/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="hover:opacity-70 transition-opacity"
               style={{ color: accentColor }}
             >
@@ -258,6 +260,8 @@ export function Hero() {
             ,{" "}
             <a
               href="https://www.claro.com.co/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="hover:opacity-70 transition-opacity"
               style={{ color: accentColor }}
             >
@@ -292,7 +296,7 @@ export function Hero() {
                 </svg>
               </a>
               <a
-                href="#approach"
+                href="#services"
                 className="hidden xl:inline-flex items-center justify-center gap-2 px-5 py-3 md:px-6 rounded-full border text-sm font-medium transition-colors duration-300 w-full xl:w-auto"
                 style={{
                   color: rgb(lerp([255, 255, 255], [15, 23, 42], shift)),

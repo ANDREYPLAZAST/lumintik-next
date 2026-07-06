@@ -22,11 +22,6 @@ export function ProjectCard({ card, large = false }: Readonly<ProjectCardProps>)
           "relative w-full overflow-hidden rounded-md bg-slate-100 border border-slate-200",
           large ? "h-[440px] md:h-[624px]" : "h-[320px] md:h-[440px]",
         )}
-        style={
-          card.logoMode && card.background
-            ? { background: card.background }
-            : undefined
-        }
       >
         <Image
           src={card.image}
@@ -37,14 +32,9 @@ export function ProjectCard({ card, large = false }: Readonly<ProjectCardProps>)
               ? "(min-width: 1536px) 1536px, (min-width: 768px) min(92vw, 1440px), 100vw"
               : "(min-width: 768px) min(46vw, 720px), 100vw"
           }
-          priority={large}
           quality={large ? 85 : 80}
           unoptimized={isCloudinaryImage}
-          className={cn(
-            card.logoMode
-              ? "absolute inset-0 m-auto !w-1/2 max-w-[260px] !h-1/2 object-contain transition-transform duration-700 group-hover:scale-[1.05] !relative"
-              : "object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]",
-          )}
+          className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
         />
 
         {card.badge && (
@@ -74,12 +64,12 @@ export function ProjectCard({ card, large = false }: Readonly<ProjectCardProps>)
       </div>
 
       <div className="mt-5 flex flex-col gap-1">
-        <h4 className="text-slate-900 text-2xl font-semibold leading-[33.6px]">
+        <h3 className="text-slate-900 text-2xl font-semibold leading-[33.6px]">
           {copy.title}
-        </h4>
-        <h3 className="text-slate-500 text-xl md:text-2xl leading-[33.6px]">
-          {copy.desc}
         </h3>
+        <p className="text-slate-500 text-xl md:text-2xl leading-[33.6px]">
+          {copy.desc}
+        </p>
       </div>
     </a>
   );

@@ -22,6 +22,7 @@ export function ProjectsShowcase() {
       `}</style>
 
       <div className="mx-auto max-w-[1600px] w-full">
+        <h2 className="sr-only">{t.nav.work}</h2>
         <div className="relative -mb-2">
           <MarqueeRow items={t.projects.marquee} duration={28} primary />
           <div className="-mt-10 opacity-50">

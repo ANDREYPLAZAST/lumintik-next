@@ -46,11 +46,9 @@ export const metadata: Metadata = {
   publisher: SITE_NAME,
   category: "technology",
   alternates: {
+    // The site serves EN/ES from a single client-switched URL, so there are no
+    // distinct localized URLs to advertise as hreflang alternates.
     canonical: "/",
-    languages: {
-      en: "/",
-      es: "/",
-    },
   },
   openGraph: {
     type: "website",
@@ -112,9 +110,9 @@ const ORGANIZATION_JSONLD = {
   logo: `${SITE_URL}/lumintik-logo.png`,
   image: `${SITE_URL}/lumintik-icon.png`,
   description: DESCRIPTION,
+  email: "andrey@lumintik.com",
   sameAs: [
     "https://github.com/ANDREYPLAZAST",
-    "https://www.linkedin.com/",
   ],
 };
 

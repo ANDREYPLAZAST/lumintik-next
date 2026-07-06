@@ -20,6 +20,7 @@ export function MarqueeRow({
   const tripled = [...items, ...items, ...items];
   return (
     <div
+      aria-hidden
       className="relative h-[48px] md:h-[72px] w-full overflow-hidden"
       style={{
         WebkitMaskImage:
@@ -39,13 +40,13 @@ export function MarqueeRow({
             key={`${item}-${i}`}
             className="flex items-center gap-8 shrink-0"
           >
-            <h3
-              className={`text-[24px] md:text-[56px] font-semibold tracking-[0.56px] leading-[48px] md:leading-[56px] ${
+            <span
+              className={`block text-[24px] md:text-[56px] font-semibold tracking-[0.56px] leading-[48px] md:leading-[56px] ${
                 primary ? "text-slate-900" : "text-slate-300"
               }`}
             >
               {item}
-            </h3>
+            </span>
             <span
               className={`text-[24px] md:text-[56px] ${primary ? "text-blue-500" : "text-slate-300"}`}
             >

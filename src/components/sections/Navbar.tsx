@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocale, useT } from "@/components/providers/LocaleProvider";
 import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
 
@@ -10,6 +10,7 @@ export function Navbar() {
   const [darkText, setDarkText] = useState(false);
   const [bgVisible, setBgVisible] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const toggleRef = useRef<HTMLButtonElement>(null);
   const { isLoading } = useLocale();
   const t = useT();
   const navItems = [
@@ -167,6 +168,7 @@ export function Navbar() {
           </nav>
 
           <button
+            ref={toggleRef}
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((v) => !v)}
@@ -205,6 +207,7 @@ export function Navbar() {
         items={mobileNavItems}
         startLabel={t.mobileMenu.startProject}
         smoothScroll={smoothScroll}
+        triggerRef={toggleRef}
       />
     </>
   );
@@ -216,14 +219,51 @@ type MobileMenuProps = {
   items: { label: string; href: string }[];
   startLabel: string;
   smoothScroll: (e: React.MouseEvent<HTMLAnchorElement>, href: string) => void;
+  triggerRef: React.RefObject<HTMLButtonElement | null>;
 };
 
-function MobileMenu({ open, onClose, items, startLabel, smoothScroll }: MobileMenuProps) {
+function MobileMenu({ open, onClose, items, startLabel, smoothScroll, triggerRef }: MobileMenuProps) {
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const asideRef = useRef<HTMLElement>(null);
+  const wasOpen = useRef(false);
+
+  // Move focus into the dialog on open, and restore it to the toggle on close.
+  useEffect(() => {
+    if (open) {
+      wasOpen.current = true;
+      closeRef.current?.focus();
+    } else if (wasOpen.current) {
+      wasOpen.current = false;
+      triggerRef.current?.focus();
+    }
+  }, [open, triggerRef]);
+
+  // Keep Tab focus cycling inside the open dialog.
+  const trapFocus = (e: React.KeyboardEvent) => {
+    if (e.key !== "Tab" || !asideRef.current) return;
+    const focusables = asideRef.current.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled])',
+    );
+    if (!focusables.length) return;
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  };
+
   return (
     <div
       role="dialog"
       aria-modal="true"
+      aria-label="Menu"
       aria-hidden={!open}
+      inert={!open}
+      onKeyDown={trapFocus}
       className="md:hidden fixed inset-0 z-[100]"
       style={{
         pointerEvents: open ? "auto" : "none",
@@ -239,6 +279,7 @@ function MobileMenu({ open, onClose, items, startLabel, smoothScroll }: MobileMe
       />
 
       <aside
+        ref={asideRef}
         className="absolute top-0 right-0 h-full w-full bg-white flex flex-col"
         style={{
           transform: open ? "translateX(0)" : "translateX(100%)",
@@ -259,6 +300,7 @@ function MobileMenu({ open, onClose, items, startLabel, smoothScroll }: MobileMe
             />
           </span>
           <button
+            ref={closeRef}
             onClick={onClose}
             aria-label="Close menu"
             className="w-12 h-12 flex items-center justify-center rounded-full hover:bg-slate-100 transition-colors"
