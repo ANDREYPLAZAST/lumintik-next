@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { LOCALES, LOCALE_TAGS, toSegment, type Locale } from "@/lib/locale";
 
 export const SITE_NAME = "Lumintik SAS";
-export const SITE_URL = "https://lumintik.com";
+// The apex redirects to www, so canonicals must point at www — otherwise every
+// canonical and hreflang names a URL that 307s somewhere else.
+export const SITE_URL = "https://www.lumintik.com";
 
 /**
  * Builds `canonical` + `hreflang` for one page in one language.
