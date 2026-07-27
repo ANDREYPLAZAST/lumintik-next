@@ -42,11 +42,14 @@ function PageviewTracker({ locale }: { locale: Locale }) {
 
   useEffect(() => {
     if (!key || !pathname) return;
-    const qs = searchParams?.toString();
     posthog.capture("$pageview", {
-      $current_url: `${window.location.origin}${pathname}${qs ? `?${qs}` : ""}`,
+      // location.search, not searchParams.toString(): the latter re-encodes the
+      // query (%20 becomes +, ?promo becomes promo=, a comma becomes %2C), so
+      // the recorded URL stopped matching the one the visitor actually opened.
+      $current_url: `${window.location.origin}${pathname}${window.location.search}`,
       locale,
     });
+    // searchParams stays in the deps so a query-only change still counts as a view.
   }, [pathname, searchParams, locale]);
 
   return null;

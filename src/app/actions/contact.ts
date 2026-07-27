@@ -16,6 +16,11 @@ export type ContactState = {
   code?: ContactCode;
   /** Names of required fields that failed validation, for client-side highlighting. */
   fields?: string[];
+  /**
+   * Set when the honeypot caught the submission. The bot still sees a plain
+   * success, but the client uses this to keep it out of the conversion count.
+   */
+  dropped?: boolean;
 };
 
 const MAX_ATTACHMENT_BYTES = 8 * 1024 * 1024; // 8 MB
@@ -40,7 +45,7 @@ export async function sendContact(
 ): Promise<ContactState> {
   // Honeypot: real users never fill this hidden field. Silently accept + drop.
   if (str(formData, "company_website")) {
-    return { status: "success", code: "success" };
+    return { status: "success", code: "success", dropped: true };
   }
 
   const name = str(formData, "name");

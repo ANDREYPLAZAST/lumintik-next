@@ -17,7 +17,9 @@ export function ContactSection() {
   useEffect(() => {
     if (state.status === "success") {
       formRef.current?.reset();
-      posthog.capture("contact_form_submitted");
+      // Honeypot hits come back as a success so the bot notices nothing, but
+      // counting them would inflate the only conversion metric the site has.
+      if (!state.dropped) posthog.capture("contact_form_submitted");
     } else if (state.status === "error") {
       posthog.capture("contact_form_failed", { code: state.code });
     }
