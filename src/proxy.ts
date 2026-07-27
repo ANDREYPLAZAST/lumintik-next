@@ -15,6 +15,18 @@ import {
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // `skipTrailingSlashRedirect` is on for /ingest's sake, which also switches
+  // off Next's own normalisation everywhere else: /es and /es/ would both
+  // answer 200, duplicating URLs and splitting their pageviews in analytics.
+  // Restored here — /ingest never reaches this code, the matcher excludes it.
+  if (pathname.length > 1 && pathname.endsWith("/")) {
+    // Built from request.url, not nextUrl.clone(): cloning re-applies the
+    // trailing slash and the redirect would point at itself.
+    const url = new URL(request.url);
+    url.pathname = pathname.replace(/\/+$/, "");
+    return NextResponse.redirect(url, 308);
+  }
+
   const hasLocale = LOCALE_SEGMENT_LIST.some(
     (seg) => pathname === `/${seg}` || pathname.startsWith(`/${seg}/`),
   );
