@@ -75,7 +75,9 @@ export function ServiceDetail({
           </div>
         </header>
 
-        <div className="relative w-full bg-white flex flex-col items-center">
+        {/* z-[2] mirrors #content-rise on the home page: the footer wrapper is
+            pulled up by 100vh, and without this the content would sit under it. */}
+        <div className="relative z-[2] w-full bg-white flex flex-col items-center">
           <div className="mx-auto max-w-[1600px] w-full px-5 md:px-12">
             <div className="-mt-10 md:-mt-16 relative w-full rounded-md overflow-hidden bg-slate-100 border border-slate-200 aspect-[16/9]">
               <video
@@ -184,14 +186,19 @@ export function ServiceDetail({
         </div>
       </main>
 
+      {/* Same wrapper as the home page: the id is what Footer measures to fade
+          its text from dark to light, and the sticky child is what produces the
+          reveal. Without both, the footer renders in its light-background
+          colours on top of the dark gradient. */}
       <div
-        className="relative w-full flex justify-center overflow-clip h-screen"
+        id="footer-wrap"
+        className="relative w-full flex justify-center overflow-clip -mt-[100vh] md:-mt-[90vh] lg:-mt-[96vh] xl:-mt-[100vh] h-[200vh] md:h-[185vh] lg:h-[195vh] xl:h-[200vh]"
         style={{
           background:
             "linear-gradient(180deg, #ffffff 0%, #93c5fd 12%, #3b82f6 26%, #1e3a8a 42%, #0f172a 65%, #0a0a0a 100%)",
         }}
       >
-        <div className="w-full h-screen flex flex-col items-stretch overflow-hidden">
+        <div className="sticky top-0 w-full h-screen flex flex-col items-stretch overflow-hidden">
           <Footer />
         </div>
       </div>
