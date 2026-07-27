@@ -1,6 +1,29 @@
 import type { Locale } from "@/lib/locale";
 
+/** Shared chrome for the case-study and service detail pages. */
+export type DetailChrome = {
+  eyebrow: string;
+  visit: string;
+  back: string;
+  overview: string;
+  screens: string;
+  next: string;
+  liveSite: string;
+};
+
 export type Messages = {
+  seo: {
+    home: { title: string; description: string };
+    caseStudy: { titleTemplate: string; descriptionFallback: string };
+    service: { titleTemplate: string };
+  };
+  detail: DetailChrome;
+  /**
+   * Long-form copy for case studies. Only projects we can describe accurately
+   * appear here; the rest render without the overview block rather than with
+   * invented numbers.
+   */
+  cases: Partial<Record<string, { overview: string }>>;
   nav: {
     work: string;
     approach: string;
@@ -58,7 +81,9 @@ export type Messages = {
       | "lenspr"
       | "piebald"
       | "accesify"
-      | "fridoom",
+      | "fridoom"
+      | "reco"
+      | "relatos",
       { title: string; desc: string }
     >;
     badge: { live: string };
@@ -104,6 +129,37 @@ export type Messages = {
 };
 
 const en: Messages = {
+  seo: {
+    home: {
+      title: "Lumintik SAS — Software studio that builds inevitable products",
+      description:
+        "Lumintik SAS is a software engineering studio for companies that care about craft. Headless commerce, applied AI, web engineering and design systems for Samsung, Claro, Coca-Cola, EZDocuAI and more.",
+    },
+    caseStudy: {
+      titleTemplate: "%s — Case study",
+      descriptionFallback: "A project built by Lumintik SAS.",
+    },
+    service: { titleTemplate: "%s — Services" },
+  },
+  detail: {
+    eyebrow: "Case study",
+    visit: "Visit the site",
+    back: "All projects",
+    overview: "Overview",
+    screens: "Screens",
+    next: "Next project",
+    liveSite: "Live site",
+  },
+  cases: {
+    reco: {
+      overview:
+        "RECO brings 30 years of customs expertise together with AI in a single foreign-trade ecosystem: platform, products, resources and support under one roof, with RECO Shield backing the operation when something goes wrong.",
+    },
+    relatos: {
+      overview:
+        "Relatos por Venezuela turns original short films into humanitarian aid. A donation from US$5 unlocks the collection and funds The House Project Foundation, which assists children and youth affected by the June 2026 earthquakes in Venezuela.",
+    },
+  },
   nav: {
     work: "Work",
     approach: "Approach",
@@ -222,6 +278,14 @@ const en: Messages = {
         title: "Fridoom",
         desc: "Personal finance brand with 50,000+ followers across social media — practical financial education for the next generation.",
       },
+      reco: {
+        title: "RECO",
+        desc: "Foreign-trade ecosystem pairing 30 years of customs expertise with AI — platform, products and support in one place.",
+      },
+      relatos: {
+        title: "Relatos por Venezuela",
+        desc: "Short films turned into humanitarian aid: donate from US$5, unlock the collection, fund earthquake relief.",
+      },
     },
     badge: { live: "Live" },
   },
@@ -275,6 +339,37 @@ const en: Messages = {
 };
 
 const es: Messages = {
+  seo: {
+    home: {
+      title: "Lumintik SAS — Estudio de software que construye productos inevitables",
+      description:
+        "Lumintik SAS es un estudio de ingeniería de software para empresas que cuidan el detalle. Headless commerce, IA aplicada, ingeniería web y design systems para Samsung, Claro, Coca-Cola, EZDocuAI y más.",
+    },
+    caseStudy: {
+      titleTemplate: "%s — Caso de estudio",
+      descriptionFallback: "Un proyecto construido por Lumintik SAS.",
+    },
+    service: { titleTemplate: "%s — Servicios" },
+  },
+  detail: {
+    eyebrow: "Caso de estudio",
+    visit: "Visitar el sitio",
+    back: "Todos los proyectos",
+    overview: "Resumen",
+    screens: "Pantallas",
+    next: "Siguiente proyecto",
+    liveSite: "Sitio en vivo",
+  },
+  cases: {
+    reco: {
+      overview:
+        "RECO reúne 30 años de experiencia aduanal e Inteligencia Artificial en un solo ecosistema de comercio exterior: plataforma, productos, recursos y soporte en un mismo lugar, con RECO Shield respaldando la operación cuando algo falla.",
+    },
+    relatos: {
+      overview:
+        "Relatos por Venezuela convierte cortometrajes originales en ayuda humanitaria. Una donación desde US$5 da acceso a la colección y financia a The House Project Foundation, que asiste a niños y jóvenes afectados por los terremotos de junio de 2026 en Venezuela.",
+    },
+  },
   nav: {
     work: "Proyectos",
     approach: "Enfoque",
@@ -392,6 +487,14 @@ const es: Messages = {
       fridoom: {
         title: "Fridoom",
         desc: "Marca de finanzas personales con más de 50.000 seguidores en redes sociales — educación financiera práctica para nuevas generaciones.",
+      },
+      reco: {
+        title: "RECO",
+        desc: "Ecosistema de comercio exterior que une 30 años de experiencia aduanal con IA — plataforma, productos y soporte en un solo lugar.",
+      },
+      relatos: {
+        title: "Relatos por Venezuela",
+        desc: "Cortometrajes convertidos en ayuda humanitaria: dona desde US$5, accede a la colección y financia la asistencia tras el terremoto.",
       },
     },
     badge: { live: "En vivo" },

@@ -2,10 +2,12 @@
 
 import { ServiceCard } from "@/components/sections/ServiceCard";
 import { services } from "@/data/services";
-import { useT } from "@/components/providers/LocaleProvider";
+import { useLocale, useT } from "@/components/providers/LocaleProvider";
+import { toSegment } from "@/lib/locale";
 
 export function ServicesSection() {
   const t = useT();
+  const { locale } = useLocale();
   const heading = `${t.services.title} ${t.services.titleAccent}`;
   const words = heading.split(" ");
   const totalChars = heading.length;
@@ -84,6 +86,7 @@ export function ServicesSection() {
                 key={service.key}
                 title={copy.title}
                 description={copy.desc}
+                href={`/${toSegment(locale)}/services/${service.slug}`}
                 videoSrc={service.videoSrc}
                 posterSrc={service.posterSrc}
                 span={service.span}

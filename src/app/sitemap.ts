@@ -1,16 +1,33 @@
 import type { MetadataRoute } from "next";
+import { LOCALES, LOCALE_TAGS, toSegment } from "@/lib/locale";
+import { caseStudies } from "@/data/projects";
+import { services } from "@/data/services";
+import { SITE_URL } from "@/lib/seo";
 
-const SITE_URL = "https://lumintik.com";
+/** Locale-less paths that exist in every language. */
+function routes(): string[] {
+  return [
+    "",
+    ...caseStudies.map((p) => `/work/${p.slug}`),
+    ...services.map((s) => `/services/${s.slug}`),
+  ];
+}
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  // Single-page site: only the homepage is a real, indexable URL.
-  // (URL fragments like /#work are not separate pages and are ignored by crawlers.)
-  return [
-    {
-      url: SITE_URL,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 1,
-    },
-  ];
+  const lastModified = new Date();
+
+  return routes().flatMap((path) =>
+    LOCALES.map((locale) => ({
+      url: `${SITE_URL}/${toSegment(locale)}${path}`,
+      lastModified,
+      changeFrequency: "monthly" as const,
+      priority: path === "" ? 1 : 0.8,
+      // Each entry advertises its translations, so crawlers pair them up.
+      alternates: {
+        languages: Object.fromEntries(
+          LOCALES.map((l) => [LOCALE_TAGS[l], `${SITE_URL}/${toSegment(l)}${path}`]),
+        ),
+      },
+    })),
+  );
 }

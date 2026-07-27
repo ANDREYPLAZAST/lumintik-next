@@ -1,11 +1,14 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Link from "next/link";
 import { cn } from "@/lib/cn";
 
 export type ServiceCardProps = {
   title: string;
   description?: string;
+  /** Detail page for this service. Without it the card stays a plain button. */
+  href?: string;
   videoSrc?: string;
   posterSrc?: string;
   /** Tailwind classes that control the card's column span and borders. */
@@ -17,6 +20,7 @@ export type ServiceCardProps = {
 export function ServiceCard({
   title,
   description,
+  href,
   videoSrc,
   posterSrc,
   span,
@@ -51,19 +55,19 @@ export function ServiceCard({
     }
   };
 
-  return (
-    <button
-      type="button"
-      className={cn(
-        "relative box-border h-96 w-full text-left outline-none border-slate-200 overflow-hidden border-solid cursor-pointer bg-transparent p-0",
-        span,
-      )}
-      aria-label={title}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onFocus={handleMouseEnter}
-      onBlur={handleMouseLeave}
-    >
+  const shellClass = cn(
+    "relative box-border h-96 w-full text-left outline-none border-slate-200 overflow-hidden border-solid cursor-pointer bg-transparent p-0",
+    span,
+  );
+
+  const interactions = {
+    onMouseEnter: handleMouseEnter,
+    onMouseLeave: handleMouseLeave,
+    onFocus: handleMouseEnter,
+    onBlur: handleMouseLeave,
+  };
+
+  const body = (
       <div className="relative box-border h-full w-full overflow-hidden bg-white">
         {videoSrc && (
           <video
@@ -154,6 +158,15 @@ export function ServiceCard({
           )}
         />
       </div>
+  );
+
+  return href ? (
+    <Link href={href} className={cn(shellClass, "block")} aria-label={title} {...interactions}>
+      {body}
+    </Link>
+  ) : (
+    <button type="button" className={shellClass} aria-label={title} {...interactions}>
+      {body}
     </button>
   );
 }

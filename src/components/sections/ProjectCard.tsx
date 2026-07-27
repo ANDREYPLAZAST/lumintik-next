@@ -1,9 +1,11 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { cn } from "@/lib/cn";
 import type { ProjectMeta } from "@/data/projects";
-import { useT } from "@/components/providers/LocaleProvider";
+import { useLocale, useT } from "@/components/providers/LocaleProvider";
+import { toSegment } from "@/lib/locale";
 
 export type ProjectCardProps = {
   card: ProjectMeta;
@@ -12,11 +14,18 @@ export type ProjectCardProps = {
 
 export function ProjectCard({ card, large = false }: Readonly<ProjectCardProps>) {
   const t = useT();
+  const { locale } = useLocale();
   const copy = t.projects.cards[card.key];
   const isCloudinaryImage = card.image.startsWith("https://res.cloudinary.com/");
 
-  return (
-    <a href={card.href} className="group block w-full">
+  // Projects with a case study open it; the rest (client-confidential work)
+  // still go straight to the live site.
+  const caseStudyHref = card.slug
+    ? `/${toSegment(locale)}/work/${card.slug}`
+    : null;
+
+  const body = (
+    <>
       <div
         className={cn(
           "relative w-full overflow-hidden rounded-md bg-slate-100 border border-slate-200",
@@ -71,6 +80,16 @@ export function ProjectCard({ card, large = false }: Readonly<ProjectCardProps>)
           {copy.desc}
         </p>
       </div>
+    </>
+  );
+
+  return caseStudyHref ? (
+    <Link href={caseStudyHref} className="group block w-full">
+      {body}
+    </Link>
+  ) : (
+    <a href={card.href} className="group block w-full">
+      {body}
     </a>
   );
 }

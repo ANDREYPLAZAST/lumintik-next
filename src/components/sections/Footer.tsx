@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useT } from "@/components/providers/LocaleProvider";
+import { useLocale, useT } from "@/components/providers/LocaleProvider";
+import { toSegment } from "@/lib/locale";
 
 const SOCIAL_LINKS = [
   { label: "GitHub", href: "https://github.com/ANDREYPLAZAST" },
@@ -11,13 +12,17 @@ const SOCIAL_LINKS = [
 
 export function Footer() {
   const t = useT();
+  const { locale } = useLocale();
   const [shift, setShift] = useState(0);
 
+  // Absolute so the links also work from a case study or service page.
+  const home = `/${toSegment(locale)}`;
+
   const footerLinks = [
-    { label: t.nav.work, href: "#work" },
-    { label: t.nav.services, href: "#services" },
-    { label: t.nav.about, href: "#about" },
-    { label: t.nav.contact, href: "#contact" },
+    { label: t.nav.work, href: `${home}#work` },
+    { label: t.nav.services, href: `${home}#services` },
+    { label: t.nav.about, href: `${home}#about` },
+    { label: t.nav.contact, href: `${home}#contact` },
   ];
 
   // Track scroll within the footer wrapper to invert text colors.
@@ -85,7 +90,7 @@ export function Footer() {
               {t.footer.tagline}
             </p>
             <a
-              href="#contact"
+              href={`${home}#contact`}
               className="inline-flex items-center gap-2 mt-8 px-6 py-3 rounded-full text-sm font-medium transition-colors duration-300"
               style={{
                 backgroundColor: btnBg,

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { useLocale, useT } from "@/components/providers/LocaleProvider";
+import { toSegment } from "@/lib/locale";
 import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
 
 export function Navbar() {
@@ -11,28 +12,34 @@ export function Navbar() {
   const [bgVisible, setBgVisible] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
-  const { isLoading } = useLocale();
+  const { locale, isLoading } = useLocale();
   const t = useT();
+  // Anchors are written absolute (/en#work) so they also resolve from a case
+  // study or service page, where those sections don't exist in the document.
+  const home = `/${toSegment(locale)}`;
   const navItems = [
-    { label: t.nav.home, href: "#hero" },
-    { label: t.nav.services, href: "#services" },
-    { label: t.nav.work, href: "#work" },
+    { label: t.nav.home, href: `${home}#hero` },
+    { label: t.nav.services, href: `${home}#services` },
+    { label: t.nav.work, href: `${home}#work` },
   ];
 
   const mobileNavItems = [
     ...navItems,
-    { label: t.nav.contact, href: "#contact" },
+    { label: t.nav.contact, href: `${home}#contact` },
   ];
 
   const smoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
-    const id = href.replace("#", "");
-    const el = document.getElementById(id);
+    const id = href.split("#")[1];
+    const el = id ? document.getElementById(id) : null;
     if (el) {
+      // Same page: scroll instead of navigating.
+      e.preventDefault();
       el.scrollIntoView({ behavior: "smooth", block: "start" });
-    } else if (href === "#hero" || href === "#") {
+    } else if (id === "hero" && window.location.pathname === home) {
+      e.preventDefault();
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
+    // Otherwise let the browser follow the link back to the home page.
   };
 
   useEffect(() => {
@@ -101,7 +108,7 @@ export function Navbar() {
       >
         <div className="mx-auto flex items-center justify-between max-w-[1600px] w-full pl-10 pr-6 md:pl-20 md:pr-12 py-3 md:py-3">
           <a
-            href="#"
+            href={home}
             aria-label="Lumintik — home"
             className="inline-flex items-center select-none"
           >
@@ -143,8 +150,8 @@ export function Navbar() {
             ))}
 
             <a
-              href="#contact"
-              onClick={(e) => smoothScroll(e, "#contact")}
+              href={`${home}#contact`}
+              onClick={(e) => smoothScroll(e, `${home}#contact`)}
               className={`ml-1 inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-medium transition-colors duration-300 ${
                 scrolled
                   ? "bg-slate-900 text-white hover:bg-blue-500"
@@ -205,6 +212,7 @@ export function Navbar() {
         open={menuOpen}
         onClose={() => setMenuOpen(false)}
         items={mobileNavItems}
+        contactHref={`${home}#contact`}
         startLabel={t.mobileMenu.startProject}
         smoothScroll={smoothScroll}
         triggerRef={toggleRef}
@@ -217,12 +225,13 @@ type MobileMenuProps = {
   open: boolean;
   onClose: () => void;
   items: { label: string; href: string }[];
+  contactHref: string;
   startLabel: string;
   smoothScroll: (e: React.MouseEvent<HTMLAnchorElement>, href: string) => void;
   triggerRef: React.RefObject<HTMLButtonElement | null>;
 };
 
-function MobileMenu({ open, onClose, items, startLabel, smoothScroll, triggerRef }: MobileMenuProps) {
+function MobileMenu({ open, onClose, items, contactHref, startLabel, smoothScroll, triggerRef }: MobileMenuProps) {
   const closeRef = useRef<HTMLButtonElement>(null);
   const asideRef = useRef<HTMLElement>(null);
   const wasOpen = useRef(false);
@@ -344,8 +353,8 @@ function MobileMenu({ open, onClose, items, startLabel, smoothScroll, triggerRef
           }}
         >
           <a
-            href="#contact"
-            onClick={(e) => { smoothScroll(e, "#contact"); onClose(); }}
+            href={contactHref}
+            onClick={(e) => { smoothScroll(e, contactHref); onClose(); }}
             className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-full bg-slate-900 text-white text-base font-medium hover:bg-blue-500 transition-colors duration-300"
           >
             {startLabel}
