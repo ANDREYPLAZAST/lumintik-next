@@ -1,16 +1,11 @@
 import type { MetadataRoute } from "next";
 import { LOCALES, LOCALE_TAGS, toSegment } from "@/lib/locale";
-import { caseStudies } from "@/data/projects";
 import { services } from "@/data/services";
 import { SITE_URL } from "@/lib/seo";
 
 /** Locale-less paths that exist in every language. */
 function routes(): string[] {
-  return [
-    "",
-    ...caseStudies.map((p) => `/work/${p.slug}`),
-    ...services.map((s) => `/services/${s.slug}`),
-  ];
+  return ["", ...services.map((s) => `/services/${s.slug}`)];
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {

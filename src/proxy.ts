@@ -29,9 +29,10 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  // Everything except Next internals and the files that must stay at the root
-  // (sitemap.xml, robots.txt, manifest, icons, /projects/* images).
+  // Everything except Next internals, the files that must stay at the root
+  // (sitemap.xml, robots.txt, manifest, icons) and /ingest — the PostHog
+  // reverse proxy, which must never be rewritten to a locale.
   matcher: [
-    "/((?!_next|api|.*\\..*|sitemap.xml|robots.txt|manifest.webmanifest).*)",
+    "/((?!_next|api|ingest|.*\\..*|sitemap.xml|robots.txt|manifest.webmanifest).*)",
   ],
 };

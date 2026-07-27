@@ -11,7 +11,7 @@ export const SITE_URL = "https://www.lumintik.com";
  *
  * @param locale the language being rendered
  * @param path   the route *without* the locale segment: "" for the home page,
- *               "/work/reco" for a case study.
+ *               "/services/applied-ai" for a service page.
  */
 export function localizedAlternates(
   locale: Locale,

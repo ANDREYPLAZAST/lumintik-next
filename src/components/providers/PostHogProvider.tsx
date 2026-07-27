@@ -17,8 +17,11 @@ const key = process.env.NEXT_PUBLIC_POSTHOG_KEY;
 if (typeof window !== "undefined" && key && !posthog.__loaded) {
   try {
     posthog.init(key, {
-      api_host:
-        process.env.NEXT_PUBLIC_POSTHOG_HOST ?? "https://us.i.posthog.com",
+      // Same-origin path, rewritten to PostHog in next.config.ts. Sending
+      // analytics through our own domain keeps ad blockers from dropping it.
+      api_host: "/ingest",
+      // Only used to build links back to the PostHog app (e.g. the toolbar).
+      ui_host: "https://us.posthog.com",
       // Pins autocapture behaviour so a posthog-js upgrade can't silently
       // change what gets tracked.
       defaults: "2026-06-25",

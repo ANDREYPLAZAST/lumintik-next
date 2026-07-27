@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { DetailShell } from "@/components/sections/DetailShell";
+import { ServiceDetail } from "@/components/sections/ServiceDetail";
 import { findServiceBySlug, services } from "@/data/services";
 import { messages } from "@/i18n/messages";
+import { serviceDetails } from "@/i18n/serviceDetails";
 import { LOCALES, OG_LOCALES, fromSegment, toSegment } from "@/lib/locale";
 import { SITE_NAME, absoluteUrl, localizedAlternates } from "@/lib/seo";
 
@@ -24,21 +25,23 @@ export async function generateMetadata({
   const item = t.services.items[service.key];
   const title = t.seo.service.titleTemplate.replace("%s", item.title);
   const path = `/services/${service.slug}`;
+  // The overview reads better as a meta description than the one-line teaser.
+  const description = serviceDetails[locale][service.key].overview;
 
   return {
     title,
-    description: item.desc,
+    description,
     alternates: localizedAlternates(locale, path),
     openGraph: {
       type: "website",
       siteName: SITE_NAME,
       title,
-      description: item.desc,
+      description,
       url: absoluteUrl(locale, path),
       locale: OG_LOCALES[locale],
       alternateLocale: LOCALES.filter((l) => l !== locale).map((l) => OG_LOCALES[l]),
     },
-    twitter: { card: "summary_large_image", title, description: item.desc },
+    twitter: { card: "summary_large_image", title, description },
   };
 }
 
@@ -57,15 +60,14 @@ export default async function ServicePage({
   const upcoming = services[(index + 1) % services.length];
 
   return (
-    <DetailShell
-      eyebrow={t.services.eyebrow}
+    <ServiceDetail
       title={item.title}
       description={item.desc}
+      content={serviceDetails[locale][service.key]}
       video={{ src: service.videoSrc, poster: service.posterSrc }}
       next={
         upcoming && upcoming.slug !== service.slug
           ? {
-              label: t.services.title,
               title: t.services.items[upcoming.key].title,
               href: `/${toSegment(locale)}/services/${upcoming.slug}`,
             }

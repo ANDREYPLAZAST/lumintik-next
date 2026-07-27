@@ -17,6 +17,22 @@ const nextConfig: NextConfig = {
       bodySizeLimit: "10mb",
     },
   },
+  // PostHog reverse proxy: analytics is served from our own domain, so the
+  // ad blockers that blocklist *.i.posthog.com don't silently drop the traffic.
+  async rewrites() {
+    return [
+      {
+        source: "/ingest/static/:path*",
+        destination: "https://us-assets.i.posthog.com/static/:path*",
+      },
+      {
+        source: "/ingest/:path*",
+        destination: "https://us.i.posthog.com/:path*",
+      },
+    ];
+  },
+  // PostHog's ingest endpoints are sensitive to a trailing-slash redirect.
+  skipTrailingSlashRedirect: true,
 };
 
 export default nextConfig;
