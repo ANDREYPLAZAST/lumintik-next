@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useEffect, useRef } from "react";
+import posthog from "posthog-js";
 import { useT } from "@/components/providers/LocaleProvider";
 import { sendContact, type ContactState } from "@/app/actions/contact";
 
@@ -11,9 +12,15 @@ export function ContactSection() {
   const [state, formAction, pending] = useActionState(sendContact, initialState);
   const formRef = useRef<HTMLFormElement>(null);
 
-  // Clear the form once a submission is accepted.
+  // Clear the form once a submission is accepted, and report the outcome to
+  // analytics. Only the result code travels — never the submitted field values.
   useEffect(() => {
-    if (state.status === "success") formRef.current?.reset();
+    if (state.status === "success") {
+      formRef.current?.reset();
+      posthog.capture("contact_form_submitted");
+    } else if (state.status === "error") {
+      posthog.capture("contact_form_failed", { code: state.code });
+    }
   }, [state]);
 
   const statusMessage = (() => {
